@@ -4,18 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BNI Jutawan CRM · Putrajaya</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:#1a1a1a;background:#f5f5f0;min-height:100vh}
-a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer}
 input,textarea,select{font-family:inherit}
-
-/* TOKENS */
 :root{
-  --bg:#ffffff;--bg2:#f5f5f0;--bg3:#eeede8;
+  --bg:#fff;--bg2:#f5f5f0;--bg3:#eeede8;
   --text:#1a1a1a;--text2:#666;--text3:#999;
-  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.2);
+  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);
   --red:#CC2030;--red2:#a8191e;
   --green:#1D9E75;--amber:#BA7517;--danger:#E24B4A;--blue:#185FA5;
   --r-md:8px;--r-lg:12px;
@@ -23,54 +21,75 @@ input,textarea,select{font-family:inherit}
 @media(prefers-color-scheme:dark){
   :root{--bg:#1e1e1e;--bg2:#161616;--bg3:#2a2a2a;--text:#e8e8e8;--text2:#aaa;--text3:#666;--border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2)}
 }
-
 /* LOGIN */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg2);padding:24px}
 .login-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:36px 32px;width:100%;max-width:380px}
 .login-logo{width:52px;height:52px;border-radius:10px;background:var(--red);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px;margin:0 auto 18px}
-.login-title{text-align:center;font-size:20px;font-weight:600;margin-bottom:4px;color:var(--text)}
+.login-title{text-align:center;font-size:20px;font-weight:700;margin-bottom:4px}
 .login-sub{text-align:center;font-size:13px;color:var(--text2);margin-bottom:28px}
 .field{margin-bottom:14px}
-.field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:500}
+.field label{display:block;font-size:12px;color:var(--text2);margin-bottom:5px;font-weight:600}
 .field input{width:100%;border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;font-size:14px;background:var(--bg);color:var(--text);outline:none;transition:border 0.15s}
 .field input:focus{border-color:var(--red)}
-.login-btn{width:100%;padding:11px;border-radius:var(--r-md);border:none;background:var(--red);color:white;font-size:14px;font-weight:600;margin-top:8px;transition:background 0.15s}
+.login-btn{width:100%;padding:11px;border-radius:var(--r-md);border:none;background:var(--red);color:white;font-size:14px;font-weight:700;margin-top:8px;transition:background 0.15s}
 .login-btn:hover{background:var(--red2)}
 .login-err{color:var(--danger);font-size:12px;text-align:center;margin-top:8px;display:none}
-
 /* WELCOME */
 .welcome-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg2)}
 .welcome-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:48px 40px;text-align:center;max-width:420px;width:90%}
-.welcome-icon{width:64px;height:64px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;color:white;font-size:26px;margin:0 auto 20px}
-.welcome-msg{font-size:22px;font-weight:700;margin-bottom:6px;color:var(--text)}
+.welcome-icon{width:64px;height:64px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;color:white;font-size:28px;margin:0 auto 20px}
+.welcome-msg{font-size:22px;font-weight:700;margin-bottom:8px}
 .welcome-sub{font-size:14px;color:var(--text2);margin-bottom:20px}
-.welcome-loader{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;color:var(--text3)}
-.dot-anim{display:inline-flex;gap:4px}.dot-anim span{width:5px;height:5px;border-radius:50%;background:var(--red);animation:dot 1.2s infinite}.dot-anim span:nth-child(2){animation-delay:0.2s}.dot-anim span:nth-child(3){animation-delay:0.4s}
+.dot-anim{display:inline-flex;gap:5px;margin-top:8px}
+.dot-anim span{width:6px;height:6px;border-radius:50%;background:var(--red);animation:dot 1.2s infinite}
+.dot-anim span:nth-child(2){animation-delay:0.2s}.dot-anim span:nth-child(3){animation-delay:0.4s}
 @keyframes dot{0%,100%{opacity:0.2;transform:scale(0.8)}50%{opacity:1;transform:scale(1)}}
-
 /* LAYOUT */
-.app{display:flex;flex-direction:column;min-height:100vh;background:var(--bg2)}
+.app{display:flex;flex-direction:column;min-height:100vh}
 .header{background:var(--bg);border-bottom:1px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-badge{width:30px;height:30px;border-radius:6px;background:var(--red);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:11px;flex-shrink:0}
-.logo-text{font-size:15px;font-weight:600;color:var(--text)}
+.logo-badge{width:30px;height:30px;border-radius:6px;background:var(--red);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:11px}
+.logo-text{font-size:14px;font-weight:700}
 .logo-sub{font-size:11px;color:var(--text2)}
 .nav{display:flex;gap:2px;flex-wrap:wrap}
 .nb{padding:6px 12px;border-radius:var(--r-md);border:none;background:transparent;font-size:12px;color:var(--text2);transition:all 0.15s}
 .nb.active{background:var(--bg3);color:var(--text);font-weight:600}
 .nb:hover:not(.active){background:var(--bg3)}
 .user-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)}
-.user-badge{padding:3px 10px;border-radius:20px;background:var(--bg3);font-size:11px;font-weight:600;color:var(--text)}
-.logout-btn{padding:5px 12px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;font-size:12px;color:var(--text2);transition:all 0.15s}
-.logout-btn:hover{background:var(--bg3)}
+.user-badge{padding:3px 10px;border-radius:20px;background:var(--bg3);font-size:11px;font-weight:700}
+.icon-btn{padding:5px 10px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;font-size:11px;color:var(--text2);transition:all 0.15s}
+.icon-btn:hover{background:var(--bg3)}
+.api-ok{background:#EAF3DE;color:#3B6D11;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.api-none{background:#FAEEDA;color:#854F0B;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
 .content{padding:16px 20px;flex:1;max-width:1100px;width:100%;margin:0 auto}
-.pg{display:none}.pg.active{display:block}
-
-/* ALERT */
-.alrt{background:#FCEBEB;border:1px solid #F09595;border-radius:var(--r-md);padding:10px 14px;margin-bottom:14px;font-size:13px;color:#A32D2D;display:flex;align-items:center;gap:8px}
-
+/* EMPTY STATE */
+.empty-state{min-height:400px;display:flex;align-items:center;justify-content:center}
+.empty-card{background:var(--bg);border:2px dashed var(--border2);border-radius:var(--r-lg);padding:48px 40px;text-align:center;max-width:480px;width:100%}
+.empty-icon{font-size:48px;margin-bottom:16px}
+.empty-title{font-size:18px;font-weight:700;margin-bottom:8px}
+.empty-sub{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:24px}
+.upload-btn-big{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:var(--r-md);border:none;background:var(--red);color:white;font-size:14px;font-weight:700;cursor:pointer;transition:background 0.15s}
+.upload-btn-big:hover{background:var(--red2)}
+/* UPLOAD PROGRESS */
+.parse-modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
+.parse-card{background:var(--bg);border-radius:var(--r-lg);padding:32px 36px;max-width:400px;width:100%;text-align:center}
+.parse-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.parse-sub{font-size:13px;color:var(--text2);margin-bottom:20px}
+.progress-bar{width:100%;height:8px;background:var(--bg3);border-radius:20px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;background:var(--red);border-radius:20px;transition:width 0.3s}
+.parse-status{font-size:12px;color:var(--text3)}
+/* PARSE ERROR */
+.parse-error{background:#FCEBEB;border:1px solid #F09595;border-radius:var(--r-md);padding:14px;margin-bottom:14px;font-size:13px;color:#A32D2D}
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px}
+.stat-label{font-size:11px;color:var(--text2);margin-bottom:4px;font-weight:600}
+.stat-val{font-size:22px;font-weight:700}
+/* UPLOAD BAR */
+.ubar{background:var(--bg);border:1px dashed var(--border2);border-radius:var(--r-lg);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.15s}
+.ubar:hover{background:var(--bg3);border-color:var(--red)}
 /* AI BAR */
-.ai-bar{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px 16px;margin-bottom:16px}
+.ai-bar{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:12px 16px;margin-bottom:14px}
 .ai-row{display:flex;gap:10px;align-items:flex-end}
 .ai-ic{width:28px;height:28px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:white;font-size:14px}
 .ai-inp{flex:1;border:none;background:transparent;font-size:13px;color:var(--text);outline:none;resize:none;line-height:1.5;min-height:20px}
@@ -78,52 +97,39 @@ input,textarea,select{font-family:inherit}
 .ai-btn{padding:6px 14px;border-radius:var(--r-md);border:1px solid var(--border2);background:var(--bg);font-size:12px;color:var(--text2);white-space:nowrap;transition:all 0.15s}
 .ai-btn:hover{background:var(--bg3)}
 .ai-resp{margin-top:10px;padding:12px 14px;background:var(--bg3);border-radius:var(--r-md);font-size:13px;line-height:1.7;color:var(--text);display:none;white-space:pre-wrap;border-left:3px solid var(--red)}
-.ai-loading{display:none;margin-top:8px;font-size:12px;color:var(--text3);align-items:center;gap:6px}
+.ai-loading{display:none;margin-top:8px;font-size:12px;color:var(--text3)}
 .ai-hint{font-size:11px;color:var(--text3);margin-top:6px;padding-left:38px}
-
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
-.stat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-md);padding:14px 16px}
-.stat-label{font-size:11px;color:var(--text2);margin-bottom:4px;font-weight:500}
-.stat-val{font-size:22px;font-weight:700}
-
-/* UPLOAD */
-.ubar{background:var(--bg);border:1px dashed var(--border2);border-radius:var(--r-lg);padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.15s}
-.ubar:hover{background:var(--bg3);border-color:var(--red)}
-
+/* ALERT */
+.alrt{background:#FCEBEB;border:1px solid #F09595;border-radius:var(--r-md);padding:10px 14px;margin-bottom:14px;font-size:13px;color:#A32D2D;display:flex;align-items:center;gap:8px}
 /* TABLE */
 .tbl-wrap{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
-.tbl-head{display:grid;grid-template-columns:36px minmax(0,1fr) 54px 84px 108px 138px 72px;padding:10px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:10px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;gap:4px}
+.tbl-head{display:grid;grid-template-columns:36px minmax(0,1fr) 54px 84px 108px 138px 72px;padding:10px 16px;background:var(--bg3);border-bottom:1px solid var(--border);font-size:10px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;gap:4px}
 .tbl-row{display:grid;grid-template-columns:36px minmax(0,1fr) 54px 84px 108px 138px 72px;padding:11px 16px;border-bottom:1px solid var(--border);align-items:center;gap:4px;cursor:pointer;transition:background 0.1s}
 .tbl-row:last-child{border-bottom:none}
 .tbl-row:hover{background:var(--bg3)}
-.mn{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.mn{font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mr{font-size:10px;color:var(--text3)}
-
 /* BADGES */
-.cb{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.cb{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:700}
 .cg{background:#EAF3DE;color:#3B6D11}.ca{background:#FAEEDA;color:#854F0B}.cr{background:#FCEBEB;color:#A32D2D}.cgr{background:#EEEDE8;color:#5F5E5A}
-.sb{display:inline-flex;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.sb{display:inline-flex;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700}
 .s5{background:#E6F1FB;color:#0C447C}.s4{background:#EAF3DE;color:#3B6D11}.s3{background:#FAEEDA;color:#854F0B}.s2{background:#FCEBEB;color:#A32D2D}.s1{background:#FCEBEB;color:#A32D2D}.s0{background:#EEEDE8;color:#5F5E5A}.sx{background:#FCEBEB;color:#A32D2D}
-.dp{display:inline-block;padding:1px 5px;border-radius:20px;font-size:9px;margin-left:3px;font-weight:600}
+.dp{display:inline-block;padding:1px 5px;border-radius:20px;font-size:9px;margin-left:3px;font-weight:700}
 .dpe{background:#FCEBEB;color:#A32D2D}.dpu{background:#FCEBEB;color:#A32D2D}.dps{background:#FAEEDA;color:#854F0B}.dpk{background:#EAF3DE;color:#3B6D11}
-
-/* BACK BTN */
+/* BACK */
 .bk{display:inline-flex;align-items:center;gap:6px;color:var(--text2);font-size:13px;margin-bottom:14px;padding:6px 12px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);transition:all 0.15s}
 .bk:hover{background:var(--bg3)}
-
 /* MEMBER DETAIL */
 .mh{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:14px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .av{width:52px;height:52px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:16px;flex-shrink:0}
 .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .dc{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px}
-.dc h3{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.dc h3{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
 .dr{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border)}
 .dr:last-child{border-bottom:none}
-.dk{font-size:12px;color:var(--text2)}.dv{font-size:12px;font-weight:600;color:var(--text)}
+.dk{font-size:12px;color:var(--text2)}.dv{font-size:12px;font-weight:700}
 .fc{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;margin-bottom:14px}
-.fc h3{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
-
+.fc h3{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:10px;display:flex;align-items:center;gap:5px}
 /* 54321 STEPS */
 .rsteps{display:flex;flex-direction:column;gap:6px;margin-top:8px}
 .rst{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-md);border:1px solid var(--border)}
@@ -131,67 +137,55 @@ input,textarea,select{font-family:inherit}
 .rst.dn{background:var(--bg3);opacity:0.7}
 .rn{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
 .rn.a{background:var(--red);color:white}.rn.d{background:var(--green);color:white}.rn.p{background:var(--bg3);color:var(--text3)}
-
 /* TLC */
 .tlcs{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;margin-bottom:14px}
 .tlce{padding:8px 10px;background:var(--bg3);border-radius:var(--r-md);margin-bottom:6px;font-size:13px;line-height:1.5}
-.tlcd{font-size:10px;color:var(--text3);margin-bottom:2px;font-weight:600}
+.tlcd{font-size:10px;color:var(--text3);margin-bottom:2px;font-weight:700}
 .tlcw{display:flex;gap:8px;margin-top:8px}
 .tlcta{flex:1;border:1px solid var(--border);border-radius:var(--r-md);padding:8px 10px;font-size:13px;color:var(--text);background:var(--bg);resize:none;height:54px;outline:none;transition:border 0.15s}
 .tlcta:focus{border-color:var(--red)}
 .tlcbtn{padding:8px 14px;border-radius:var(--r-md);border:1px solid var(--border2);background:var(--bg);font-size:12px;color:var(--text2);align-self:flex-end;transition:all 0.15s}
 .tlcbtn:hover{background:var(--bg3)}
-
-/* HAPPINESS GRID */
+/* HAPPINESS */
 .hg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .hi{padding:8px 10px;background:var(--bg3);border-radius:var(--r-md)}
-.hl{font-size:10px;color:var(--text2);margin-bottom:2px;font-weight:500}
-.hv{font-size:12px;font-weight:600;color:var(--text);line-height:1.4}
-
+.hl{font-size:10px;color:var(--text2);margin-bottom:2px;font-weight:600}
+.hv{font-size:12px;font-weight:700;line-height:1.4}
 /* RENEWAL TRACKER */
-.rtl .rti{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:all 0.1s}
-.rtl .rti:hover{background:var(--bg3);padding-left:6px;margin:-0px -6px;padding-right:6px;border-radius:var(--r-md)}
+.rtl .rti{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.rtl .rti:hover{padding-left:6px;padding-right:6px;margin:0 -6px;border-radius:var(--r-md)}
 .rtl .rti:last-child{border-bottom:none}
-
 /* SEARCH */
 .srow2{display:flex;gap:8px;margin-bottom:12px}
 .si{flex:1;border:1px solid var(--border);border-radius:var(--r-md);padding:8px 12px;font-size:13px;background:var(--bg);color:var(--text);outline:none;transition:border 0.15s}
 .si:focus{border-color:var(--red)}
 .fsel{border:1px solid var(--border);border-radius:var(--r-md);padding:8px 10px;font-size:12px;background:var(--bg);color:var(--text);outline:none}
-
 /* HAPPINESS FORM */
 .hform-wrap{max-width:680px;margin:0 auto;padding:0 0 40px}
 .hfcard{background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;margin-bottom:14px}
-.hfcard h2{font-size:18px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.hfcard h2{font-size:18px;font-weight:700;margin-bottom:4px}
 .hfsub{font-size:13px;color:var(--text2);margin-bottom:20px}
 .hfq{margin-bottom:18px}
-.hfq label.qlabel{display:block;font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.4;color:var(--text)}
+.hfq label.qlabel{display:block;font-size:13px;font-weight:700;margin-bottom:8px;line-height:1.4}
 .hfhint{font-size:11px;color:var(--text3);margin-bottom:6px}
 .hfopt{display:flex;align-items:flex-start;gap:8px;padding:5px 0;cursor:pointer}
 .hfopt input{margin-top:2px;flex-shrink:0;accent-color:var(--red)}
-.hfopt span{font-size:13px;line-height:1.4;color:var(--text)}
+.hfopt span{font-size:13px;line-height:1.4}
 .hftxt{width:100%;border:1px solid var(--border);border-radius:var(--r-md);padding:9px 12px;font-size:13px;color:var(--text);background:var(--bg);resize:none;outline:none;min-height:64px;transition:border 0.15s;line-height:1.5}
 .hftxt:focus{border-color:var(--red)}
 .hfsel{width:100%;border:1px solid var(--border);border-radius:var(--r-md);padding:9px 12px;font-size:13px;color:var(--text);background:var(--bg);outline:none}
-.hfsubmit{width:100%;padding:12px;border-radius:var(--r-md);border:none;background:var(--red);color:white;font-size:15px;font-weight:600;margin-top:6px;transition:background 0.15s}
+.hfsubmit{width:100%;padding:12px;border-radius:var(--r-md);border:none;background:var(--red);color:white;font-size:15px;font-weight:700;margin-top:6px;transition:background 0.15s}
 .hfsubmit:hover{background:var(--red2)}
 .hfsuccess{background:#EAF3DE;border:1px solid #97C459;border-radius:var(--r-lg);padding:32px;text-align:center}
 .hfsuccess h3{font-size:18px;font-weight:700;color:#3B6D11;margin-bottom:8px}
 .hfsuccess p{font-size:14px;color:#3B6D11}
-
 /* HAPPINESS LINKS */
 .hlrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
 .hlrow:last-child{border-bottom:none}
-.hlink-btn{padding:5px 12px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--blue);transition:all 0.15s}
-.hlink-btn:hover{background:#E6F1FB}
-.copy-btn{padding:5px 12px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--text2);transition:all 0.15s}
-.copy-btn:hover{background:var(--bg3)}
-
-/* PANDUAN 54321 */
+/* PANDUAN */
 .p54{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
 .p54-item{padding:10px;border-radius:var(--r-md);text-align:center}
-
-/* MODAL API KEY */
+/* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px}
 .modal{background:var(--bg);border-radius:var(--r-lg);padding:28px;max-width:420px;width:100%;border:1px solid var(--border)}
 .modal h3{font-size:16px;font-weight:700;margin-bottom:8px}
@@ -199,153 +193,425 @@ input,textarea,select{font-family:inherit}
 .modal input{width:100%;border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;font-size:13px;background:var(--bg);color:var(--text);outline:none;margin-bottom:12px;transition:border 0.15s}
 .modal input:focus{border-color:var(--red)}
 .modal-btns{display:flex;gap:8px}
-.modal-save{flex:1;padding:10px;border-radius:var(--r-md);border:none;background:var(--red);color:white;font-size:14px;font-weight:600}
+.modal-save{flex:1;padding:10px;border-radius:var(--r-md);border:none;background:var(--red);color:white;font-size:14px;font-weight:700}
 .modal-save:hover{background:var(--red2)}
 .modal-skip{padding:10px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;font-size:14px;color:var(--text2)}
 .modal-skip:hover{background:var(--bg3)}
-.api-status{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 8px;border-radius:20px}
-.api-ok{background:#EAF3DE;color:#3B6D11}.api-none{background:#FAEEDA;color:#854F0B}
-
 @media(max-width:640px){
   .stats-row{grid-template-columns:repeat(2,1fr)}
   .tbl-head,.tbl-row{grid-template-columns:28px minmax(0,1fr) 48px 76px}
   .tbl-head>div:nth-child(n+5),.tbl-row>div:nth-child(n+5){display:none}
-  .dgrid{grid-template-columns:1fr}
-  .hg{grid-template-columns:1fr}
+  .dgrid{grid-template-columns:1fr}.hg{grid-template-columns:1fr}.p54{grid-template-columns:repeat(3,1fr)}
   .nav{display:none}
 }
 </style>
 </head>
 <body>
 <div id="root"></div>
-
 <script>
-const TODAY = new Date(2026,4,25);
-const MN = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
-const parseDue = s => { const [m,y]=s.split(' '); return new Date(parseInt(y),MN[m],1); };
-const daysUntil = s => Math.round((parseDue(s)-TODAY)/86400000);
+// ── PDF.js setup ──
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-/* ── USERS ── */
+// ── USERS ──
 const USERS = {
-  mcmrenewal:{pass:'123456',name:'MCM RENEWAL',role:'mcm',welcome:'WELCOME, MCM RENEWAL!',icon:'MCM'},
-  vpjutawan: {pass:'123456',name:'VICE PRESIDENT',role:'vp',welcome:'WELCOME, VICE PRESIDENT!',icon:'VP'},
-  ambassador:{pass:'12356', name:'GROWTH AMBASSADOR',role:'ga',welcome:'WELCOME, GROWTH AMBASSADOR!',icon:'GA'},
+  mcmrenewal:{pass:'123456',name:'MCM RENEWAL',role:'mcm',welcome:'WELCOME, MCM RENEWAL!'},
+  vpjutawan: {pass:'123456',name:'VICE PRESIDENT',role:'vp',welcome:'WELCOME, VICE PRESIDENT!'},
+  ambassador:{pass:'12356', name:'GROWTH AMBASSADOR',role:'ga',welcome:'WELCOME, GROWTH AMBASSADOR!'},
 };
 
-/* ── STATE ── */
-let currentUser=null, showWelcome=false, currentView='overview';
-let currentMember=null, formMemberId=null, rfFilter='all';
-let apiKey = localStorage.getItem('bni_apikey')||'';
-let showApiModal = !apiKey;
+// ── MTL COLOUR ──
+function mtlColor(score){
+  if(score>=75) return 'GREEN';
+  if(score>=50) return 'AMBER';
+  if(score>=25) return 'RED';
+  return 'GRAY';
+}
 
+// ── DATE HELPERS ──
+const MN={Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+function parseDue(s){const[m,y]=s.split(' ');return new Date(parseInt(y),MN[m],1);}
+function daysUntil(s){
+  const today=new Date(2026,4,25);
+  return Math.round((parseDue(s)-today)/86400000);
+}
 function getStep(due){
   const d=daysUntil(due);
-  if(d<0)   return {step:'x',lbl:'Tamat Tempoh',pic:'mcm',cls:'sx',desc:'TAMAT TEMPOH — MCM hubungi segera'};
-  if(d<=30)  return {step:1,lbl:'Langkah 1',pic:'mcm',cls:'s1',desc:'Umumkan & terima bayaran'};
-  if(d<=60)  return {step:2,lbl:'Langkah 2',pic:'mcm',cls:'s2',desc:'Hantar Renewal Form Online'};
-  if(d<=90)  return {step:3,lbl:'Langkah 3',pic:'mcm',cls:'s3',desc:'Pengumuman + MA Training'};
-  if(d<=120) return {step:4,lbl:'Langkah 4',pic:'mcm',cls:'s4',desc:'POR Report & Member Review'};
-  if(d<=150) return {step:5,lbl:'Langkah 5',pic:'ga', cls:'s5',desc:'Hantar Happiness Feedback Form'};
-  return {step:0,lbl:'Belum bermula',pic:'-',cls:'s0',desc:'Lebih 5 bulan lagi'};
+  if(d<0)   return{step:'x',lbl:'Tamat Tempoh',pic:'mcm',cls:'sx'};
+  if(d<=30)  return{step:1,lbl:'Langkah 1',pic:'mcm',cls:'s1'};
+  if(d<=60)  return{step:2,lbl:'Langkah 2',pic:'mcm',cls:'s2'};
+  if(d<=90)  return{step:3,lbl:'Langkah 3',pic:'mcm',cls:'s3'};
+  if(d<=120) return{step:4,lbl:'Langkah 4',pic:'mcm',cls:'s4'};
+  if(d<=150) return{step:5,lbl:'Langkah 5',pic:'ga', cls:'s5'};
+  return{step:0,lbl:'Belum bermula',pic:'-',cls:'s0'};
 }
 
-/* ── MEMBERS ── */
-const MB=[
-  {no:1,name:"Anuwar Ibrahim Zarali",role:"CEC",mtl:75,color:"GREEN",due:"Sep 2026",tenure:"8M",r121:32,rg:20,vis:10,ty:38194,renew:"Ya"},
-  {no:2,name:"Mohd Sallehuddin Kamaruddin",role:"",mtl:75,color:"GREEN",due:"Feb 2027",tenure:"1Y 3M",r121:34,rg:15,vis:10,ty:44038,renew:"Ya"},
-  {no:3,name:"Anas Kamarulzaman",role:"",mtl:75,color:"GREEN",due:"Jan 2027",tenure:"4M",r121:24,rg:20,vis:15,ty:9364,renew:"Ya"},
-  {no:4,name:"Azmi Ahmad",role:"VP",mtl:70,color:"GREEN",due:"Sep 2026",tenure:"2Y 8M",r121:16,rg:20,vis:10,ty:63577,renew:"Ya"},
-  {no:5,name:"Siti Nur Diyana Husna Abd Halim",role:"",mtl:70,color:"GREEN",due:"Aug 2026",tenure:"2Y 9M",r121:49,rg:20,vis:5,ty:143852,renew:"Ya"},
-  {no:6,name:"Farah Aina Ghazali",role:"",mtl:70,color:"GREEN",due:"Feb 2027",tenure:"3M",r121:17,rg:20,vis:15,ty:40059,renew:"Ya"},
-  {no:7,name:"Razali Sudin @ Alias",role:"MCM",mtl:65,color:"AMBER",due:"Jun 2026",tenure:"2Y 11M",r121:15,rg:15,vis:10,ty:34167,renew:"Ya"},
-  {no:8,name:"Mohd Faliq Bin Fauzi",role:"VH",mtl:65,color:"AMBER",due:"May 2027",tenure:"4Y 6M",r121:58,rg:15,vis:10,ty:30206,renew:"Ya"},
-  {no:9,name:"Nadia Zchang-Ani Effendy",role:"",mtl:60,color:"AMBER",due:"Sep 2026",tenure:"2Y 8M",r121:52,rg:20,vis:5,ty:28055,renew:"Ya"},
-  {no:10,name:"Seri Kesumawati Binti Sarian",role:"",mtl:55,color:"AMBER",due:"Mar 2027",tenure:"2M",r121:8,rg:15,vis:15,ty:1881,renew:"N/A"},
-  {no:11,name:"Mohd Afif Iza Mohd Shahrin Iza",role:"",mtl:50,color:"AMBER",due:"Jun 2026",tenure:"2Y 11M",r121:28,rg:15,vis:5,ty:56875,renew:"Ya"},
-  {no:12,name:"Bilal Jailani",role:"MCM",mtl:50,color:"AMBER",due:"Aug 2026",tenure:"1Y 9M",r121:23,rg:15,vis:10,ty:18683,renew:"Ya"},
-  {no:13,name:"Idora Qatrunnada Haris Fadzilah",role:"CGC",mtl:45,color:"RED",due:"Aug 2026",tenure:"1Y 9M",r121:29,rg:15,vis:5,ty:21776,renew:"Ya"},
-  {no:14,name:"Reduan Syah Putra Bin Tono",role:"",mtl:45,color:"RED",due:"Jun 2026",tenure:"2Y 11M",r121:13,rg:15,vis:5,ty:318403,renew:"Ya"},
-  {no:15,name:"Siti Alwiah Daud",role:"",mtl:45,color:"RED",due:"Feb 2027",tenure:"3M",r121:21,rg:15,vis:15,ty:1400,renew:"N/A"},
-  {no:16,name:"Mohammad Noor Ahmad Nordin",role:"",mtl:40,color:"RED",due:"Sep 2026",tenure:"2Y 1M",r121:18,rg:10,vis:5,ty:15200,renew:"Ya"},
-  {no:17,name:"Mohd Yazli Abu Bakar",role:"",mtl:30,color:"RED",due:"Jan 2027",tenure:"4M",r121:5,rg:15,vis:10,ty:900,renew:"N/A"},
-  {no:18,name:"Mohammad Yusuf Abd Rahim",role:"",mtl:20,color:"GRAY",due:"Jun 2026",tenure:"2Y 11M",r121:22,rg:15,vis:5,ty:22400,renew:"Ya"},
-  {no:19,name:"Izzati Qatrunnada",role:"",mtl:30,color:"RED",due:"Jun 2026",tenure:"2Y 11M",r121:8,rg:10,vis:5,ty:59200,renew:"Tidak"},
-  {no:20,name:"Putri Norhidayah",role:"",mtl:30,color:"RED",due:"Oct 2026",tenure:"2Y 7M",r121:23,rg:10,vis:6,ty:1100,renew:"Ya"},
-  {no:21,name:"Puteri Zulaikha Baharuddin",role:"",mtl:20,color:"GRAY",due:"Oct 2026",tenure:"2Y 7M",r121:16,rg:10,vis:5,ty:4600,renew:"Ya"},
-  {no:22,name:"Mohd Zulkefli Md Khanafi",role:"",mtl:10,color:"GRAY",due:"Nov 2026",tenure:"1Y 6M",r121:19,rg:10,vis:5,ty:6500,renew:"Ya"},
-  {no:23,name:"Ezani Monoto",role:"",mtl:10,color:"GRAY",due:"Aug 2026",tenure:"2Y 9M",r121:13,rg:10,vis:5,ty:68800,renew:"Ya"},
-  {no:24,name:"Aki Raja Husain",role:"",mtl:10,color:"GRAY",due:"Jun 2026",tenure:"2Y 11M",r121:6,rg:10,vis:5,ty:6380,renew:"Ya"},
-  {no:25,name:"Nurul Liana Faisal Azni",role:"",mtl:5,color:"GRAY",due:"Jan 2027",tenure:"1Y 4M",r121:11,rg:5,vis:5,ty:0,renew:"N/A"},
-  {no:26,name:"Thalha Bakar",role:"",mtl:0,color:"GRAY",due:"Oct 2026",tenure:"1Y 7M",r121:3,rg:5,vis:5,ty:0,renew:"N/A"},
-];
+// ── STATE ──
+let currentUser=null, showWelcome=false, currentView='overview';
+let currentMember=null, formMemberId=null, rfFilter='all';
+let apiKey=localStorage.getItem('bni_apikey')||'';
+let showApiModal=false;
+let showParseModal=false, parseProgress=0, parseStatus='';
+let parseError='';
+let MB=[], HP={}, TLC={}, DONE={};
+let mtlMonth='', mtlYear='';
 
-/* ── HAPPINESS DATA (from CSV) ── */
-const HP_DEFAULT={
-  "Razali Sudin @ Alias":{sat:"Ya",renew:"Ya",intro:"Ya",feel:"Ada peningkatan",survey:"6-12 bulan lalu",comment:"Berbaloi menyertai BNI.",bni:"More referral dan networking activity",self:"Improve my leadership",tenure:"Lebih 24 bulan",lt:"Ya",pertama:"Cara dihost, Mesyuarat profesional, Potensi perniagaan"},
-  "Mohd Sallehuddin Kamaruddin":{sat:"Agak berpuas hati",renew:"Tidak",intro:"Ya",feel:"Ada peningkatan",survey:"Tidak pernah",comment:"Terlalu banyak masa dan tanggungjawab diluangkan untuk BNI.",bni:"Kurangkan roles yang tidak menjana bisnes",self:"Delegating kerja dengan lebih baik",tenure:"6-12 bulan",lt:"Ya",pertama:"Mesyuarat profesional, Potensi perniagaan"},
-  "Anuwar Ibrahim Zarali":{sat:"Ya",renew:"Ya",intro:"Ya",feel:"Sangat baik",survey:"6-12 bulan lalu",comment:"Chapter BNI sangat membantu perniagaan saya.",bni:"Lebih banyak networking events",self:"Lebih aktif dalam 121",tenure:"Lebih 24 bulan",lt:"Ya",pertama:"Cara dihost, Mesyuarat profesional"},
-  "Azmi Ahmad":{sat:"Ya",renew:"Ya",intro:"Ya",feel:"Sangat baik",survey:"6-12 bulan lalu",comment:"BNI memberi peluang perniagaan yang besar.",bni:"Data analytics lebih baik",self:"Fokus quality referral",tenure:"Lebih 24 bulan",lt:"Ya",pertama:"Potensi perniagaan"},
-  "Mohd Faliq Bin Fauzi":{sat:"Ya",renew:"Ya",intro:"Ya",feel:"Sangat baik",survey:"6-12 bulan lalu",comment:"BNI telah mengubah cara saya berbisnes.",bni:"Lebih banyak peluang latihan",self:"Hadir lebih konsisten",tenure:"Lebih 24 bulan",lt:"Ya",pertama:"Potensi perniagaan, Referral ahli"},
-  "Nadia Zchang-Ani Effendy":{sat:"Ya",renew:"Ya",intro:"Ya",feel:"Ada peningkatan",survey:"6-12 bulan lalu",comment:"Sangat berpuas hati.",bni:"Aktiviti team building",self:"Buat lebih banyak 121",tenure:"Lebih 24 bulan",lt:"Ya",pertama:"Tenaga dalam bilik mesyuarat"},
-  "Siti Nur Diyana Husna Abd Halim":{sat:"Ya",renew:"Ya",intro:"Ya",feel:"Ada peningkatan",survey:"6-12 bulan lalu",comment:"Connections dalam BNI sangat bernilai.",bni:"More social events",self:"Improve presentation skills",tenure:"Lebih 24 bulan",lt:"Ya",pertama:"Potensi perniagaan"},
-  "Bilal Jailani":{sat:"Ya",renew:"Ya",intro:"Ya",feel:"Ada peningkatan",survey:"Tidak pernah",comment:"Terima kasih kepada semua ahli.",bni:"Program mentor yang lebih baik",self:"Tingkatkan referral",tenure:"13-24 bulan",lt:"Ya",pertama:"Mesyuarat profesional, Potensi perniagaan"},
-  "Mohammad Yusuf Abd Rahim":{sat:"Tidak",renew:"Tidak",intro:"Tidak",feel:"Tiada perubahan",survey:"6-12 bulan lalu",comment:"Sibuk dengan urusan kerja.",bni:"Jadual fleksibel",self:"Urus masa lebih baik",tenure:"Lebih 24 bulan",lt:"Ya",pertama:"Potensi perniagaan"},
-  "Izzati Qatrunnada":{sat:"Agak berpuas hati",renew:"Tidak",intro:"Ya",feel:"Ada peningkatan",survey:"Tidak pernah",comment:"Tidak dapat commit sepenuhnya.",bni:"Jadual mesyuarat berbeza",self:"Reconsider priority",tenure:"Lebih 24 bulan",lt:"Ya",pertama:"Cara dihost, Potensi perniagaan"},
-};
-
-let HP = {...HP_DEFAULT};
-const TLC = {};
-const DONE = {};
-
+// ── LOCAL STORAGE ──
 function loadLocal(){
-  try{ const s=localStorage.getItem('bni_hp'); if(s) HP={...HP_DEFAULT,...JSON.parse(s)}; }catch(e){}
-  try{ const s=localStorage.getItem('bni_tlc'); if(s) Object.assign(TLC,JSON.parse(s)); }catch(e){}
-  try{ const s=localStorage.getItem('bni_done'); if(s) Object.assign(DONE,JSON.parse(s)); }catch(e){}
+  try{const s=localStorage.getItem('bni_members');if(s)MB=JSON.parse(s);}catch(e){}
+  try{const s=localStorage.getItem('bni_hp');if(s)HP=JSON.parse(s);}catch(e){}
+  try{const s=localStorage.getItem('bni_tlc');if(s)TLC=JSON.parse(s);}catch(e){}
+  try{const s=localStorage.getItem('bni_done');if(s)DONE=JSON.parse(s);}catch(e){}
+  try{const s=localStorage.getItem('bni_month');if(s){const d=JSON.parse(s);mtlMonth=d.month;mtlYear=d.year;}}catch(e){}
 }
-function saveHP(){ localStorage.setItem('bni_hp',JSON.stringify(HP)); }
-function saveTLCS(){ localStorage.setItem('bni_tlc',JSON.stringify(TLC)); }
-function saveDONE(){ localStorage.setItem('bni_done',JSON.stringify(DONE)); }
+function saveMembers(){localStorage.setItem('bni_members',JSON.stringify(MB));localStorage.setItem('bni_month',JSON.stringify({month:mtlMonth,year:mtlYear}));}
+function saveHP(){localStorage.setItem('bni_hp',JSON.stringify(HP));}
+function saveTLCS(){localStorage.setItem('bni_tlc',JSON.stringify(TLC));}
+function saveDONE(){localStorage.setItem('bni_done',JSON.stringify(DONE));}
 
-/* ── HELPERS ── */
-function cb(c){const m={GREEN:'cg',AMBER:'ca',RED:'cr',GRAY:'cgr'},l={GREEN:'Hijau',AMBER:'Amber',RED:'Merah',GRAY:'Kelabu'};return `<span class="cb ${m[c]||'cgr'}">${l[c]||c}</span>`;}
-function rdisp(m){const h=HP[m.name],r=h?h.renew:m.renew;return r==='Ya'?`<span style="font-size:12px;color:var(--green);font-weight:600">✓ Ya</span>`:r==='Tidak'?`<span style="font-size:12px;color:var(--danger);font-weight:600">✗ Tidak</span>`:`<span style="font-size:12px;color:var(--text3)">—</span>`;}
-function ddisp(m){const d=daysUntil(m.due),dc=d<0?'dpe':d<=30?'dpu':d<=90?'dps':'dpk',dl=d<0?`${Math.abs(d)}h lalu`:d===0?'Hari ini!':d<=150?`${d}h`:`${d}h`,fc=d<0||d<=30?'var(--danger)':d<=90?'var(--amber)':'var(--text2)';return `<span style="font-size:12px;color:${fc};font-weight:${d<=90?'600':'400'}">${m.due}<span class="dp ${dc}">${dl}</span></span>`;}
-function sbadge(m){const s=getStep(m.due),pl=s.pic==='ga'?`<span style="color:var(--blue);font-size:9px"> GA</span>`:s.pic==='mcm'?`<span style="color:var(--green);font-size:9px"> MCM</span>`:'';return `<span class="sb ${s.cls}">${s.lbl}${pl}</span>`;}
+// ── PDF PARSER ──
+async function parseMTLPDF(file){
+  showParseModal=true; parseProgress=0; parseStatus='Membuka fail PDF...'; parseError=''; render();
+  try{
+    const arrayBuffer=await file.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:arrayBuffer}).promise;
+    const totalPages=pdf.numPages;
+    parseStatus=`PDF dibuka — ${totalPages} halaman. Mencari jadual ranking...`;
+    parseProgress=10; render();
+
+    // Extract text from all pages
+    let allPageTexts=[];
+    for(let i=1;i<=totalPages;i++){
+      const page=await pdf.getPage(i);
+      const content=await page.getTextContent();
+      // Get text with positions
+      const items=content.items.map(item=>({
+        str:item.str,
+        x:Math.round(item.transform[4]),
+        y:Math.round(item.transform[5]),
+        w:Math.round(item.width)
+      }));
+      allPageTexts.push({pageNum:i, items});
+      if(i<=5){
+        parseProgress=10+Math.round((i/Math.min(5,totalPages))*20);
+        parseStatus=`Membaca halaman ${i}/${totalPages}...`;
+        render();
+      }
+    }
+
+    parseStatus='Mencari data bulan dan chapter...'; parseProgress=35; render();
+
+    // Find month/chapter info from first few pages
+    for(let pg of allPageTexts.slice(0,5)){
+      const fullText=pg.items.map(i=>i.str).join(' ');
+      const mMatch=fullText.match(/(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+20\d\d/);
+      if(mMatch){
+        const parts=mMatch[0].split(' ');
+        mtlMonth=parts[0]; mtlYear=parts[1];
+      }
+    }
+    if(!mtlMonth) mtlMonth='April'; if(!mtlYear) mtlYear='2026';
+
+    parseStatus='Mengekstrak senarai ahli dari jadual ranking...'; parseProgress=40; render();
+
+    // Parse ranking table — look for pages with member ranking data
+    // Key: pages containing "Member Name" header and member rows
+    let members=[];
+    const MONTHS_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    for(let pg of allPageTexts){
+      const fullText=pg.items.map(i=>i.str).join(' ');
+      // Ranking pages contain "Member Name" and "Due Date" and "TENURE"
+      if(!fullText.includes('Member Name')) continue;
+      if(!fullText.includes('TENURE')) continue;
+
+      parseStatus=`Parsing jadual ranking halaman ${pg.pageNum}...`; render();
+
+      // Group items by Y position (same row = same Y ±5px)
+      const rows={};
+      for(let item of pg.items){
+        if(!item.str.trim()) continue;
+        const yKey=Math.round(item.y/4)*4;
+        if(!rows[yKey]) rows[yKey]=[];
+        rows[yKey].push(item);
+      }
+
+      // Sort rows by Y descending (top to bottom in PDF coords)
+      const sortedYs=Object.keys(rows).map(Number).sort((a,b)=>b-a);
+
+      for(let y of sortedYs){
+        const rowItems=rows[y].sort((a,b)=>a.x-b.x);
+        const rowText=rowItems.map(i=>i.str).join(' ').trim();
+
+        // Skip header rows
+        if(rowText.includes('Member Name')||rowText.includes('LT/LTS')||rowText.includes('Due Date')) continue;
+        if(rowText.includes('Ranking order')) continue;
+
+        // Look for member rows: starts with a number (ranking no.)
+        const noMatch=rowText.match(/^(\d+)\s+(.+)/);
+        if(!noMatch) continue;
+
+        const rankNo=parseInt(noMatch[1]);
+        if(rankNo<1||rankNo>100) continue;
+
+        // Extract from full row text
+        // Pattern: NO NAME [ROLE] [LT/P] DUE_DATE MTL_SCORES...
+        const tokens=rowText.split(/\s+/).filter(t=>t);
+
+        // Find due date (Month YYYY pattern)
+        let dueDate='', dueIdx=-1;
+        for(let i=0;i<tokens.length;i++){
+          if(MONTHS_SHORT.includes(tokens[i]) && tokens[i+1] && tokens[i+1].match(/^20\d\d$/)){
+            dueDate=tokens[i]+' '+tokens[i+1];
+            dueIdx=i; break;
+          }
+        }
+        if(!dueDate) continue;
+
+        // Name is everything between rank no. and due date (minus role/LT codes)
+        // Role codes: CEC, VP, MCM, VH, ST, P, CGC, NEC, CMC, etc.
+        const ROLE_CODES=['CEC','VP','MCM','VH','ST','CGC','NEC','CMC','CWM','Engage','Community','Quality','M--','Relate'];
+        const afterNo=tokens.slice(1,dueIdx);
+
+        // Separate name from role/P markers
+        let nameParts=[], roleParts=[];
+        for(let t of afterNo){
+          if(t==='P'||t==='-') {roleParts.push(t); continue;}
+          if(ROLE_CODES.some(r=>t.startsWith(r))){roleParts.push(t); continue;}
+          if(t==='Dropped'){roleParts.push(t); continue;}
+          nameParts.push(t);
+        }
+        const name=nameParts.join(' ').trim();
+        const role=roleParts.filter(r=>r!=='P'&&r!=='-'&&r!=='Dropped').join(' ').trim();
+        const dropped=roleParts.includes('Dropped');
+
+        if(!name||name.length<2) continue;
+        if(dropped) continue; // skip dropped members
+
+        // MTL score: number right after due date
+        let mtlScore=0;
+        const afterDue=tokens.slice(dueIdx+2);
+        // MTL Apr score is usually first numeric after due date
+        for(let t of afterDue){
+          const n=parseInt(t);
+          if(!isNaN(n)&&n>=0&&n<=100){mtlScore=n; break;}
+        }
+
+        // TYFCB: look for K values or large numbers in row
+        let tyfcb=0;
+        const tyfcbMatch=rowText.match(/(\d+(?:\.\d+)?)\s*K\s/g);
+        if(tyfcbMatch){
+          // Take last K value as TYFCB (usually rightmost)
+          const lastK=tyfcbMatch[tyfcbMatch.length-1];
+          tyfcb=Math.round(parseFloat(lastK)*1000);
+        } else {
+          // Look for large number
+          const bigNums=rowText.match(/\b(\d{4,7})\b/g);
+          if(bigNums) tyfcb=parseInt(bigNums[bigNums.length-1])||0;
+        }
+
+        // TENURE: look for pattern like 8M, 1Y 3M, 2Y 11M, 4Y 6M
+        const tenureMatch=rowText.match(/(\d+Y\s+\d+M|\d+Y|\d+M)(?:\s|$)/g);
+        let tenure='';
+        if(tenureMatch) tenure=tenureMatch[tenureMatch.length-1].trim();
+
+        // 121 count: look in participation data
+        // For now extract from the row — 121 appears in last section
+        let r121=0, rg=0, vis=0;
+        const numTokens=afterDue.filter(t=>!isNaN(parseInt(t))&&parseInt(t)>=0);
+        // Approximate: Attd, Ref.G, Visitor, Trng, 121, TYFCB columns
+        if(numTokens.length>=5){
+          r121=parseInt(numTokens[4])||0;
+          rg=parseInt(numTokens[1])||0;
+          vis=parseInt(numTokens[2])||0;
+        }
+
+        const color=mtlColor(mtlScore);
+
+        // Avoid duplicates
+        if(members.find(m=>m.no===rankNo)) continue;
+
+        members.push({
+          no:rankNo, name, role:role||'',
+          mtl:mtlScore, color, due:dueDate, tenure,
+          r121, rg, vis, ty:tyfcb, renew:'N/A'
+        });
+      }
+    }
+
+    // Sort by rank number
+    members.sort((a,b)=>a.no-b.no);
+
+    parseStatus=`Ditemui ${members.length} ahli. Memproses data individu...`; parseProgress=70; render();
+
+    // Now parse individual member pages for detailed data (121, referral, visitor, TYFCB)
+    // Individual pages have "Current MTL" and member name in header
+    for(let pg of allPageTexts){
+      const fullText=pg.items.map(i=>i.str).join(' ');
+      if(!fullText.includes('Current MTL')) continue;
+      if(!fullText.includes('Due Date')) continue;
+
+      // Extract member name from this page
+      const nameIdx=fullText.indexOf('Member');
+      const dueIdx2=fullText.indexOf('Due Date');
+      if(nameIdx<0||dueIdx2<0) continue;
+
+      // Get text items near "Member" label to find name
+      const memberItems=pg.items.filter(i=>i.str.trim().length>0);
+      let memberName='', memberDue='', memberMTL=0, memberTenure='';
+      let memberTYFCB=0, member121=0, memberRefGiven=0, memberVisitor=0;
+
+      // Find "Member" label and get value to its right/below
+      for(let i=0;i<memberItems.length;i++){
+        if(memberItems[i].str==='Member'&&memberItems[i+1]){
+          // Next non-empty item at similar Y is the name
+          const targetY=memberItems[i].y;
+          for(let j=i+1;j<Math.min(i+10,memberItems.length);j++){
+            if(Math.abs(memberItems[j].y-targetY)<8&&memberItems[j].str.trim()){
+              memberName+=memberItems[j].str+' ';
+            } else if(memberItems[j].y!==targetY&&memberName.trim()) break;
+          }
+          memberName=memberName.trim();
+        }
+        if(memberItems[i].str==='Due Date'&&memberItems[i+1]){
+          const targetY=memberItems[i].y;
+          let parts=[];
+          for(let j=i+1;j<Math.min(i+8,memberItems.length);j++){
+            if(Math.abs(memberItems[j].y-targetY)<8&&memberItems[j].str.trim()){
+              parts.push(memberItems[j].str);
+            }
+          }
+          const dueFull=parts.join(' ');
+          const dm=dueFull.match(/(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+20\d\d/);
+          if(dm) memberDue=dm[0];
+        }
+        if(memberItems[i].str==='Current MTL'&&memberItems[i+1]){
+          for(let j=i+1;j<Math.min(i+5,memberItems.length);j++){
+            const n=parseInt(memberItems[j].str);
+            if(!isNaN(n)&&n>=0&&n<=100){memberMTL=n; break;}
+          }
+        }
+        if(memberItems[i].str==='Tenure'&&memberItems[i+1]){
+          const targetY=memberItems[i].y;
+          let parts=[];
+          for(let j=i+1;j<Math.min(i+6,memberItems.length);j++){
+            if(Math.abs(memberItems[j].y-targetY)<8&&memberItems[j].str.trim()){
+              parts.push(memberItems[j].str);
+            }
+          }
+          memberTenure=parts.join(' ').trim();
+        }
+      }
+
+      // Extract TYFCB total from participation table
+      const tyfcbMatches=[...fullText.matchAll(/(\d+(?:\.\d+)?)\s*K/g)];
+      if(tyfcbMatches.length>0){
+        // Find the "Total" TYFCB — usually the largest K value
+        let maxK=0;
+        for(let m of tyfcbMatches){
+          const val=parseFloat(m[1])*1000;
+          if(val>maxK) maxK=val;
+        }
+        memberTYFCB=Math.round(maxK);
+      }
+
+      // Extract 121 total
+      const totalMatches=fullText.match(/121[^0-9]*(\d+)/);
+      if(totalMatches) member121=parseInt(totalMatches[1])||0;
+
+      // Find member in our list and update with better data
+      if(memberName&&memberDue){
+        const found=members.find(m=>{
+          // Fuzzy match — name might differ slightly
+          const a=m.name.toLowerCase().replace(/[^a-z]/g,'');
+          const b=memberName.toLowerCase().replace(/[^a-z]/g,'');
+          return a===b||a.includes(b.substring(0,8))||b.includes(a.substring(0,8));
+        });
+        if(found){
+          if(memberMTL>0) found.mtl=memberMTL;
+          found.color=mtlColor(found.mtl);
+          if(memberTenure) found.tenure=memberTenure;
+          if(memberTYFCB>found.ty) found.ty=memberTYFCB;
+          if(member121>found.r121) found.r121=member121;
+        }
+      }
+
+      parseProgress=Math.min(90, parseProgress+1); render();
+    }
+
+    if(members.length===0){
+      throw new Error('Tiada data ahli dijumpai dalam PDF. Pastikan fail yang diupload adalah fail MTL BNI yang betul.');
+    }
+
+    MB=members;
+    saveMembers();
+
+    parseProgress=100;
+    parseStatus=`✅ Berjaya! ${members.length} ahli dimuatkan dari PDF ${mtlMonth} ${mtlYear}.`;
+    render();
+    await new Promise(r=>setTimeout(r,1500));
+    showParseModal=false; render();
+
+  } catch(err){
+    parseError=err.message||'Ralat tidak diketahui semasa memproses PDF.';
+    showParseModal=false; render();
+  }
+}
+
+// ── HELPERS ──
+function cb(c){const m={GREEN:'cg',AMBER:'ca',RED:'cr',GRAY:'cgr'},l={GREEN:'Hijau',AMBER:'Amber',RED:'Merah',GRAY:'Kelabu'};return`<span class="cb ${m[c]||'cgr'}">${l[c]||c}</span>`;}
+function rdisp(m){const h=HP[m.name],r=h?h.renew:m.renew;return r==='Ya'?`<span style="font-size:12px;color:var(--green);font-weight:700">✓ Ya</span>`:r==='Tidak'?`<span style="font-size:12px;color:var(--danger);font-weight:700">✗ Tidak</span>`:`<span style="font-size:12px;color:var(--text3)">—</span>`;}
+function ddisp(m){const d=daysUntil(m.due),dc=d<0?'dpe':d<=30?'dpu':d<=90?'dps':'dpk',dl=d<0?`${Math.abs(d)}h lalu`:d===0?'Hari ini!':d<=150?`${d}h`:`${d}h`,fc=d<0||d<=30?'var(--danger)':d<=90?'var(--amber)':'var(--text2)';return`<span style="font-size:12px;color:${fc};font-weight:${d<=90?700:400}">${m.due}<span class="dp ${dc}">${dl}</span></span>`;}
+function sbadge(m){const s=getStep(m.due),pl=s.pic==='ga'?`<span style="color:var(--blue);font-size:9px"> GA</span>`:s.pic==='mcm'?`<span style="color:var(--green);font-size:9px"> MCM</span>`:'';return`<span class="sb ${s.cls}">${s.lbl}${pl}</span>`;}
 function mc(c){return c==='GREEN'?'var(--green)':c==='AMBER'?'var(--amber)':c==='RED'?'var(--danger)':'var(--text3)';}
-function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-/* ── RENDER ENGINE ── */
+// ── RENDER ──
 function render(){
-  document.getElementById('root').innerHTML = buildRoot();
+  document.getElementById('root').innerHTML=buildRoot();
   bindEvents();
 }
 
 function buildRoot(){
+  if(showParseModal) return (currentUser?buildHeader():'')+'<div class="content">'+buildContent()+'</div>'+buildParseModal();
   if(!currentUser) return buildLogin();
-  if(showWelcome) return buildWelcome();
-  if(formMemberId!==null) return buildForm();
-  return `${buildHeader()}${buildApiModal()}<div class="content">${buildContent()}</div>`;
+  if(showWelcome)   return buildWelcome();
+  if(formMemberId!==null) return buildHeader()+buildApiModal()+'<div class="content">'+buildForm()+'</div>';
+  return buildHeader()+buildApiModal()+'<div class="content">'+buildContent()+'</div>';
 }
 
 function buildLogin(){
-  return `<div class="login-wrap"><div class="login-card">
+  return`<div class="login-wrap"><div class="login-card">
     <div class="login-logo">BNI</div>
     <div class="login-title">BNI Jutawan CRM</div>
     <div class="login-sub">Putrajaya Chapter · 54321 Renewal Tracker</div>
-    <div class="field"><label>Username</label><input type="text" id="l-user" placeholder="masukkan username" autocomplete="off"></div>
-    <div class="field"><label>Password</label><input type="password" id="l-pass" placeholder="masukkan password"></div>
+    <div class="field"><label>Username</label><input type="text" id="l-user" placeholder="username" autocomplete="off"></div>
+    <div class="field"><label>Password</label><input type="password" id="l-pass" placeholder="password"></div>
     <button class="login-btn" id="login-btn">Log Masuk</button>
     <div class="login-err" id="l-err">Username atau password tidak betul.</div>
   </div></div>`;
 }
 
 function buildWelcome(){
-  return `<div class="welcome-wrap"><div class="welcome-card">
+  return`<div class="welcome-wrap"><div class="welcome-card">
     <div class="welcome-icon">🎉</div>
     <div class="welcome-msg">${esc(currentUser.welcome)}</div>
     <div class="welcome-sub">Log masuk sebagai ${esc(currentUser.name)}</div>
-    <div class="welcome-loader"><div class="dot-anim"><span></span><span></span><span></span></div> Memuatkan dashboard...</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;color:var(--text3)">
+      <div class="dot-anim"><span></span><span></span><span></span></div> Memuatkan dashboard...
+    </div>
   </div></div>`;
+}
+
+function buildParseModal(){
+  return`<div class="parse-modal">
+    <div class="parse-card">
+      <div style="font-size:32px;margin-bottom:12px">📊</div>
+      <div class="parse-title">Memproses PDF MTL...</div>
+      <div class="parse-sub">${esc(parseStatus)}</div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${parseProgress}%"></div></div>
+      <div class="parse-status">${parseProgress}%</div>
+    </div>
+  </div>`;
 }
 
 function buildHeader(){
@@ -355,30 +621,32 @@ function buildHeader(){
     {id:'members',label:'Semua Ahli',icon:'👥'},
     {id:'hlinks',label:'Happiness Links',icon:'🔗'},
   ];
-  const apiSt = apiKey
-    ? `<span class="api-status api-ok">AI ✓</span>`
-    : `<span class="api-status api-none">AI — tiada key</span>`;
-  return `<div class="header">
+  const mtlBadge=MB.length>0
+    ?`<span style="background:#EAF3DE;color:#3B6D11;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700">${mtlMonth} ${mtlYear} · ${MB.length} ahli</span>`
+    :`<span style="background:#FAEEDA;color:#854F0B;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700">Tiada data PDF</span>`;
+  const apiSt=apiKey?`<span class="api-ok">AI ✓</span>`:`<span class="api-none">AI — tiada key</span>`;
+  return`<div class="header">
     <div class="logo">
       <div class="logo-badge">BNI</div>
-      <div><div class="logo-text">Jutawan CRM</div><div class="logo-sub">Putrajaya · 25 Mei 2026</div></div>
+      <div><div class="logo-text">Jutawan CRM · 54321 Tracker</div><div class="logo-sub">Putrajaya</div></div>
     </div>
     <div class="nav">${tabs.map(t=>`<button class="nb${currentView===t.id&&!currentMember?' active':''}" data-view="${t.id}">${t.icon} ${t.label}</button>`).join('')}</div>
     <div class="user-row">
-      <span class="user-badge">${esc(currentUser.name)}</span>
-      <button id="api-key-btn" style="padding:4px 8px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;font-size:11px;color:var(--text2)">⚙ API Key</button>
+      ${mtlBadge}
+      <button class="icon-btn" id="api-key-btn">⚙ API Key</button>
       ${apiSt}
-      <button class="logout-btn" id="logout-btn">Log Keluar</button>
+      <span class="user-badge">${esc(currentUser?.name||'')}</span>
+      <button class="icon-btn" id="logout-btn">Log Keluar</button>
     </div>
   </div>`;
 }
 
 function buildApiModal(){
   if(!showApiModal) return '';
-  return `<div class="modal-bg" id="api-modal">
+  return`<div class="modal-bg" id="api-modal">
     <div class="modal">
       <h3>🔑 Anthropic API Key</h3>
-      <p>Masukkan API key anda untuk mengaktifkan AI assistant dalam CRM ini. Key disimpan dalam browser anda sahaja dan tidak dihantar ke mana-mana pelayan lain.</p>
+      <p>Masukkan API key untuk aktifkan AI assistant. Key disimpan dalam browser anda sahaja.</p>
       <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." value="${esc(apiKey)}">
       <div style="font-size:11px;color:var(--text3);margin-bottom:14px">Dapatkan key di: <strong>console.anthropic.com</strong></div>
       <div class="modal-btns">
@@ -392,37 +660,57 @@ function buildApiModal(){
 function buildContent(){
   if(currentMember) return buildMemberDetail(currentMember);
   const views={overview:buildOverview,renewal:buildRenewal,members:buildMembers,hlinks:buildHLinks};
-  return (views[currentView]||buildOverview)();
+  return(views[currentView]||buildOverview)();
 }
 
 function buildOverview(){
+  // If no data, show empty state with upload
+  if(MB.length===0){
+    return`<div class="empty-state">
+      <div class="empty-card">
+        ${parseError?`<div class="parse-error">⚠ ${esc(parseError)}</div>`:''}
+        <div class="empty-icon">📂</div>
+        <div class="empty-title">Tiada Data MTL</div>
+        <div class="empty-sub">Upload fail PDF MTL BNI untuk memaparkan senarai ahli, ranking, due dates dan semua maklumat renewal chapter anda.</div>
+        <label class="upload-btn-big" for="pdf-main">
+          📤 Upload PDF MTL
+          <input type="file" id="pdf-main" accept=".pdf" style="display:none">
+        </label>
+        <div style="margin-top:14px;font-size:12px;color:var(--text3)">Format: PDF MTL BNI Putrajaya (cth: 202604_Putrajaya__Jutawan.pdf)</div>
+      </div>
+    </div>`;
+  }
+
   const urg=MB.filter(m=>daysUntil(m.due)<=30).length;
   const s5=MB.filter(m=>getStep(m.due).step===5).length;
   const mcm=MB.filter(m=>{const s=getStep(m.due).step;return typeof s==='number'&&s>=1&&s<=4;}).length;
   const exp=MB.filter(m=>daysUntil(m.due)<0);
   const alrt=exp.length?`<div class="alrt">⚠ <strong>${exp.length} ahli TAMAT TEMPOH:</strong> ${exp.map(m=>m.name.split(' ')[0]).join(', ')} — MCM hubungi segera!</div>`:'';
-  const aiStatus=apiKey?`placeholder="Tanya AI... cth: Siapa yang GA perlu hubungi minggu ini?"`:`placeholder="Masukkan API Key dahulu untuk aktifkan AI (klik ⚙ API Key di atas)"`;
-  return `${alrt}
+
+  return`${alrt}
   <div class="ai-bar">
     <div class="ai-row">
       <div class="ai-ic">🤖</div>
-      <textarea class="ai-inp" id="ai-q" rows="1" ${aiStatus}></textarea>
+      <textarea class="ai-inp" id="ai-q" rows="1" placeholder="${apiKey?'Tanya AI... cth: Siapa yang GA perlu hubungi minggu ini?':'Masukkan API Key (⚙) untuk aktifkan AI'}"></textarea>
       <button class="ai-btn" id="ai-send-btn">Tanya AI</button>
     </div>
     <div id="ai-loading" class="ai-loading">⏳ AI sedang berfikir...</div>
     <div class="ai-resp" id="ai-resp"></div>
-    ${!apiKey?'<div class="ai-hint" style="color:var(--amber)">⚠ API Key belum dikonfigurasi. Klik ⚙ API Key di header untuk setup.</div>':'<div class="ai-hint">AI dijawab terus dalam sistem ini</div>'}
+    <div class="ai-hint">${apiKey?'AI dijawab terus dalam sistem ini':'⚠ API Key diperlukan — klik ⚙ API Key di header'}</div>
   </div>
   <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Ahli Aktif</div><div class="stat-val">43</div></div>
+    <div class="stat-card"><div class="stat-label">Ahli Aktif</div><div class="stat-val">${MB.length}</div></div>
     <div class="stat-card"><div class="stat-label">Expired / ≤30 hari</div><div class="stat-val" style="color:var(--danger)">${urg}</div></div>
     <div class="stat-card"><div class="stat-label">Langkah 5 — Perlu GA</div><div class="stat-val" style="color:var(--blue)">${s5}</div></div>
     <div class="stat-card"><div class="stat-label">Langkah 1–4 — Perlu MCM</div><div class="stat-val" style="color:var(--green)">${mcm}</div></div>
   </div>
   <label class="ubar" for="pdf-up">
     <span style="font-size:20px">📤</span>
-    <div><div style="font-size:13px;font-weight:600;color:var(--text)" id="ul-lbl">Upload MTL PDF Baru</div><div style="font-size:11px;color:var(--text2)">Data ranking dikemaskini selepas upload</div></div>
-    <span style="font-size:11px;background:#EAF3DE;color:#3B6D11;padding:2px 8px;border-radius:20px;margin-left:auto;font-weight:600">Apr 2026</span>
+    <div>
+      <div style="font-size:13px;font-weight:700;color:var(--text)">Upload MTL PDF Baru</div>
+      <div style="font-size:11px;color:var(--text2)">Upload PDF terbaru untuk kemaskini semua data ranking</div>
+    </div>
+    <span style="font-size:11px;background:#EAF3DE;color:#3B6D11;padding:2px 8px;border-radius:20px;margin-left:auto;font-weight:700">${mtlMonth} ${mtlYear} aktif</span>
     <input type="file" id="pdf-up" accept=".pdf" style="display:none">
   </label>
   <div class="tbl-wrap">
@@ -432,9 +720,9 @@ function buildOverview(){
 }
 
 function buildRows(arr){
-  if(!arr.length) return '<div style="padding:28px;text-align:center;color:var(--text3);font-size:13px">Tiada ahli dijumpai</div>';
+  if(!arr.length) return'<div style="padding:28px;text-align:center;color:var(--text3);font-size:13px">Tiada ahli dijumpai</div>';
   return arr.map(m=>`<div class="tbl-row" data-mno="${m.no}">
-    <div style="font-size:11px;color:var(--text3);font-weight:600">${m.no}</div>
+    <div style="font-size:11px;color:var(--text3);font-weight:700">${m.no}</div>
     <div><div class="mn">${esc(m.name)}</div>${m.role?`<div class="mr">${esc(m.role)}</div>`:''}</div>
     <div style="font-size:14px;font-weight:700;color:${mc(m.color)}">${m.mtl}</div>
     <div>${cb(m.color)}</div><div>${ddisp(m)}</div><div>${sbadge(m)}</div><div>${rdisp(m)}</div>
@@ -442,55 +730,63 @@ function buildRows(arr){
 }
 
 function buildRenewal(){
+  if(MB.length===0) return`<div class="empty-state"><div class="empty-card"><div class="empty-icon">📂</div><div class="empty-title">Tiada Data</div><div class="empty-sub">Upload PDF MTL terlebih dahulu dari tab Overview.</div></div></div>`;
+
   const panduan=`<div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px;margin-bottom:14px">
     <div style="font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px">Panduan 54321 Renewal Process</div>
     <div class="p54">
-      <div class="p54-item" style="background:#E6F1FB"><div style="font-size:16px;font-weight:700;color:#0C447C">5</div><div style="font-size:10px;color:#185FA5;margin:2px 0">5 Bulan</div><div style="font-size:10px;color:#185FA5">Happiness Form</div><div style="font-size:10px;color:#0C447C;font-weight:700;margin-top:2px">Growth Ambassador</div></div>
-      <div class="p54-item" style="background:#EAF3DE"><div style="font-size:16px;font-weight:700;color:#27500A">4</div><div style="font-size:10px;color:#3B6D11;margin:2px 0">4 Bulan</div><div style="font-size:10px;color:#3B6D11">POR Report & Review</div><div style="font-size:10px;color:#27500A;font-weight:700;margin-top:2px">MCM Renewal</div></div>
-      <div class="p54-item" style="background:#FAEEDA"><div style="font-size:16px;font-weight:700;color:#633806">3</div><div style="font-size:10px;color:#854F0B;margin:2px 0">3 Bulan</div><div style="font-size:10px;color:#854F0B">Pengumuman + MA Training</div><div style="font-size:10px;color:#633806;font-weight:700;margin-top:2px">MCM Renewal</div></div>
-      <div class="p54-item" style="background:#FCEBEB"><div style="font-size:16px;font-weight:700;color:#791F1F">2</div><div style="font-size:10px;color:#A32D2D;margin:2px 0">2 Bulan</div><div style="font-size:10px;color:#A32D2D">Renewal Form Online</div><div style="font-size:10px;color:#791F1F;font-weight:700;margin-top:2px">MCM Renewal</div></div>
-      <div class="p54-item" style="background:#FCEBEB;border:1px solid #F09595"><div style="font-size:16px;font-weight:700;color:#501313">1</div><div style="font-size:10px;color:#A32D2D;margin:2px 0">1 Bulan</div><div style="font-size:10px;color:#A32D2D">Umumkan & Bayaran</div><div style="font-size:10px;color:#501313;font-weight:700;margin-top:2px">MCM Renewal</div></div>
+      <div class="p54-item" style="background:#E6F1FB"><div style="font-size:16px;font-weight:700;color:#0C447C">5</div><div style="font-size:9px;color:#185FA5;margin:2px 0">5 Bulan</div><div style="font-size:9px;color:#185FA5">Happiness Form</div><div style="font-size:9px;color:#0C447C;font-weight:700;margin-top:2px">Growth Ambassador</div></div>
+      <div class="p54-item" style="background:#EAF3DE"><div style="font-size:16px;font-weight:700;color:#27500A">4</div><div style="font-size:9px;color:#3B6D11;margin:2px 0">4 Bulan</div><div style="font-size:9px;color:#3B6D11">POR Report</div><div style="font-size:9px;color:#27500A;font-weight:700;margin-top:2px">MCM Renewal</div></div>
+      <div class="p54-item" style="background:#FAEEDA"><div style="font-size:16px;font-weight:700;color:#633806">3</div><div style="font-size:9px;color:#854F0B;margin:2px 0">3 Bulan</div><div style="font-size:9px;color:#854F0B">Pengumuman+MA</div><div style="font-size:9px;color:#633806;font-weight:700;margin-top:2px">MCM Renewal</div></div>
+      <div class="p54-item" style="background:#FCEBEB"><div style="font-size:16px;font-weight:700;color:#791F1F">2</div><div style="font-size:9px;color:#A32D2D;margin:2px 0">2 Bulan</div><div style="font-size:9px;color:#A32D2D">Renewal Form</div><div style="font-size:9px;color:#791F1F;font-weight:700;margin-top:2px">MCM Renewal</div></div>
+      <div class="p54-item" style="background:#FCEBEB;border:1px solid #F09595"><div style="font-size:16px;font-weight:700;color:#501313">1</div><div style="font-size:9px;color:#A32D2D;margin:2px 0">1 Bulan</div><div style="font-size:9px;color:#A32D2D">Umumkan+Bayar</div><div style="font-size:9px;color:#501313;font-weight:700;margin-top:2px">MCM Renewal</div></div>
     </div>
   </div>`;
+
   const filters=`<div style="display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap">
     ${['all','ga','mcm','urgent'].map(f=>`<button style="padding:6px 14px;border-radius:var(--r-md);border:1px solid var(--border);background:${rfFilter===f?'var(--bg3)':'var(--bg)'};font-size:12px;color:var(--text2);font-weight:${rfFilter===f?700:400};cursor:pointer" data-rf="${f}">${f==='all'?'Semua':f==='ga'?'🔵 Perlu GA':f==='mcm'?'🟢 Perlu MCM':'🔴 Kritikal ≤30h'}</button>`).join('')}
   </div>`;
+
   const sorted=[...MB].sort((a,b)=>parseDue(a.due)-parseDue(b.due));
   const fil=sorted.filter(m=>{const s=getStep(m.due),d=daysUntil(m.due);if(rfFilter==='ga')return s.pic==='ga';if(rfFilter==='mcm')return s.pic==='mcm';if(rfFilter==='urgent')return d<=30;return true;});
+
   const rows=fil.map(m=>{
     const s=getStep(m.due),d=daysUntil(m.due),h=HP[m.name],renew=h?h.renew:m.renew;
     const dc=d<0||d<=30?'var(--danger)':d<=90?'var(--amber)':'var(--green)';
     const done=DONE[m.no]&&DONE[m.no][s.step];
     let act='';
-    if(s.step==='x') act=`<span style="color:var(--danger);font-size:12px;font-weight:600">TAMAT TEMPOH — MCM hubungi segera untuk renewal atau drop</span>`;
-    else if(s.step===1) act=`<span style="color:var(--danger);font-size:12px"><strong>MCM:</strong> Umumkan dalam chapter meeting & pastikan renewal form + bayaran diterima</span>`;
-    else if(s.step===2) act=`<span style="color:#A32D2D;font-size:12px"><strong>MCM:</strong> Hantar Renewal Form Online kepada ahli</span>`;
-    else if(s.step===3) act=`<span style="color:var(--amber);font-size:12px"><strong>MCM:</strong> Buat pengumuman renewal & daftarkan ke MA Renewal Training</span>`;
-    else if(s.step===4) act=`<span style="color:var(--green);font-size:12px"><strong>MCM:</strong> Semak POR Report & buat Member Participation Review bersama Mentor</span>`;
-    else if(s.step===5) act=`<span style="color:var(--blue);font-size:12px"><strong>Growth Ambassador:</strong> Hantar Happiness Feedback Form kepada ahli ini</span>`;
+    if(s.step==='x') act=`<span style="color:var(--danger);font-size:12px;font-weight:700">TAMAT TEMPOH — MCM hubungi segera</span>`;
+    else if(s.step===1) act=`<span style="color:var(--danger);font-size:12px"><b>MCM:</b> Umumkan dalam meeting & pastikan renewal form + bayaran diterima</span>`;
+    else if(s.step===2) act=`<span style="color:#A32D2D;font-size:12px"><b>MCM:</b> Hantar Renewal Form Online kepada ahli</span>`;
+    else if(s.step===3) act=`<span style="color:var(--amber);font-size:12px"><b>MCM:</b> Buat pengumuman renewal & daftarkan ke MA Renewal Training</span>`;
+    else if(s.step===4) act=`<span style="color:var(--green);font-size:12px"><b>MCM:</b> Semak POR Report & buat Member Participation Review</span>`;
+    else if(s.step===5) act=`<span style="color:var(--blue);font-size:12px"><b>Growth Ambassador:</b> Hantar Happiness Feedback Form kepada ahli ini</span>`;
     else act=`<span style="color:var(--text3);font-size:12px">Lebih 5 bulan lagi — pantau sahaja</span>`;
-    return `<div class="rti" data-mno="${m.no}">
+
+    return`<div class="rti" data-mno="${m.no}">
       <div style="width:8px;height:8px;border-radius:50%;background:${dc};flex-shrink:0;margin-top:4px"></div>
       <div style="flex:1;min-width:0">
         <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px">
-          <span style="font-size:13px;font-weight:700;color:var(--text)">${esc(m.name)}</span>${cb(m.color)}<span class="sb ${s.cls}" style="font-size:10px">${s.lbl}</span>
+          <span style="font-size:13px;font-weight:700">${esc(m.name)}</span>${cb(m.color)}<span class="sb ${s.cls}" style="font-size:10px">${s.lbl}</span>
           ${renew==='Tidak'?'<span style="font-size:11px;color:var(--danger);font-weight:700">✗ Tidak Renew</span>':''}
         </div>
         <div>${act}</div>
-        ${done?'<div style="font-size:11px;color:var(--green);margin-top:3px;font-weight:600">✓ Tindakan dicatat selesai</div>':''}
+        ${done?'<div style="font-size:11px;color:var(--green);margin-top:3px;font-weight:700">✓ Tindakan dicatat selesai</div>':''}
       </div>
       <div style="text-align:right;flex-shrink:0;padding-left:10px">
         <div style="font-size:12px;font-weight:700;color:${d<0||d<=30?'var(--danger)':d<=90?'var(--amber)':'var(--text)'}">${m.due}</div>
         <div style="font-size:11px;color:var(--text3)">${d<0?`${Math.abs(d)}h lalu`:d===0?'Hari ini':`${d}h lagi`}</div>
-        <button style="margin-top:4px;font-size:10px;padding:2px 8px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;font-weight:${done?600:400}" data-done="${m.no}" data-step="${s.step}">${done?'✓ Selesai':'Tandakan selesai'}</button>
+        <button style="margin-top:4px;font-size:10px;padding:2px 8px;border-radius:20px;border:1px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;font-weight:${done?700:400}" data-done="${m.no}" data-step="${s.step}">${done?'✓ Selesai':'Tandakan selesai'}</button>
       </div>
     </div>`;
   }).join('')||'<div style="padding:20px;text-align:center;color:var(--text3);font-size:13px">Tiada ahli dalam kategori ini</div>';
-  return `${panduan}${filters}<div class="rtl">${rows}</div>`;
+
+  return`${panduan}${filters}<div class="rtl">${rows}</div>`;
 }
 
 function buildMembers(){
-  return `<div class="srow2">
+  if(MB.length===0) return`<div class="empty-state"><div class="empty-card"><div class="empty-icon">📂</div><div class="empty-title">Tiada Data</div><div class="empty-sub">Upload PDF MTL terlebih dahulu dari tab Overview.</div></div></div>`;
+  return`<div class="srow2">
     <input type="text" class="si" id="s-inp" placeholder="Cari nama ahli...">
     <select class="fsel" id="c-fil">
       <option value="">Semua Warna</option>
@@ -504,16 +800,17 @@ function buildMembers(){
 }
 
 function buildHLinks(){
+  if(MB.length===0) return`<div class="empty-state"><div class="empty-card"><div class="empty-icon">📂</div><div class="empty-title">Tiada Data</div><div class="empty-sub">Upload PDF MTL terlebih dahulu dari tab Overview.</div></div></div>`;
   const rows=MB.map(m=>{
-    const h=HP[m.name],filled=h&&h._submitted?'<span style="font-size:12px;color:var(--green);font-weight:600">✓ Dah isi</span>':'<span style="font-size:12px;color:var(--text3)">Belum isi</span>';
-    return `<div class="hlrow">
-      <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">${esc(m.name)}</div><div style="font-size:11px;color:var(--text2)">${m.role||'Ahli'} · Due: ${m.due}</div></div>
+    const h=HP[m.name],filled=h&&h._submitted?'<span style="font-size:12px;color:var(--green);font-weight:700">✓ Dah isi</span>':'<span style="font-size:12px;color:var(--text3)">Belum isi</span>';
+    return`<div class="hlrow">
+      <div style="flex:1"><div style="font-size:13px;font-weight:700">${esc(m.name)}</div><div style="font-size:11px;color:var(--text2)">${m.role||'Ahli'} · Due: ${m.due}</div></div>
       <div style="margin-right:8px">${filled}</div>
-      <button class="hlink-btn" data-form="${m.no}">🔗 Buka Form</button>
-      <button class="copy-btn" data-copy="${m.no}" style="margin-left:6px">📋 Salin</button>
+      <button style="padding:5px 12px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--blue);cursor:pointer" data-form="${m.no}">🔗 Buka Form</button>
+      <button style="margin-left:6px;padding:5px 12px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);font-size:12px;color:var(--text2);cursor:pointer" data-copy="${m.no}">📋 Salin</button>
     </div>`;
   }).join('');
-  return `<div style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6">Link unik borang happiness feedback untuk setiap ahli. Salin link dan hantar kepada ahli berkenaan melalui WhatsApp atau email.</div>
+  return`<div style="font-size:13px;color:var(--text2);margin-bottom:12px;line-height:1.6">Link unik borang happiness feedback untuk setiap ahli. Salin dan hantar melalui WhatsApp atau email.</div>
   <div class="tbl-wrap" style="padding:16px">${rows}</div>`;
 }
 
@@ -532,11 +829,11 @@ function buildMemberDetail(m){
 
   const stepsH=steps.map(st=>{
     const isA=st.n===curStep,isD=s.step==='x'||(typeof s.step==='number'&&curStep>0&&st.n>curStep);
-    return `<div class="rst${isA?' act':isD?' dn':''}">
+    return`<div class="rst${isA?' act':isD?' dn':''}">
       <div class="rn ${isA?'a':isD?'d':'p'}">${isD?'✓':st.n}</div>
-      <div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--text)">${st.title}</div>
-      <div style="font-size:11px;color:var(--text2);margin-top:2px">${isA?`<strong style="color:var(--danger)">TINDAKAN SEKARANG</strong> — ${st.desc}`:isD?'Sudah berlalu':st.desc}</div></div>
-      <div style="text-align:right"><div style="font-size:10px;color:var(--text3)">${st.tf}</div><div style="font-size:11px;font-weight:600;color:${st.pc}">${st.pic}</div></div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:700">${st.title}</div>
+      <div style="font-size:11px;color:var(--text2);margin-top:2px">${isA?`<b style="color:var(--danger)">TINDAKAN SEKARANG</b> — ${st.desc}`:isD?'Sudah berlalu':st.desc}</div></div>
+      <div style="text-align:right"><div style="font-size:10px;color:var(--text3)">${st.tf}</div><div style="font-size:11px;font-weight:700;color:${st.pc}">${st.pic}</div></div>
     </div>`;
   }).join('');
 
@@ -547,11 +844,11 @@ function buildMemberDetail(m){
   else dlbl=`<span style="color:var(--text2)">${m.due} — ${d} hari lagi</span>`;
 
   let abanner='';
-  if(s.step==='x') abanner=`<div style="padding:9px 12px;border-radius:var(--r-md);background:#FCEBEB;margin-bottom:10px;font-size:12px;color:#A32D2D;border:1px solid #F09595"><strong>⚠ TAMAT TEMPOH!</strong> MCM perlu hubungi ${esc(m.name.split(' ')[0])} segera untuk renewal atau drop.</div>`;
+  if(s.step==='x') abanner=`<div style="padding:9px 12px;border-radius:var(--r-md);background:#FCEBEB;margin-bottom:10px;font-size:12px;color:#A32D2D;border:1px solid #F09595"><b>⚠ TAMAT TEMPOH!</b> MCM perlu hubungi ${esc(m.name.split(' ')[0])} segera.</div>`;
   else if(typeof s.step==='number'&&s.step>0){
     const bc=s.pic==='ga'?'#E6F1FB':'#EAF3DE',tc=s.pic==='ga'?'#185FA5':'#3B6D11';
-    const msgs={5:`Growth Ambassador — hantar Happiness Feedback Form`,4:`MCM Renewal — semak POR Report & buat participation review`,3:`MCM Renewal — buat pengumuman renewal & daftarkan ke MA Renewal Training`,2:`MCM Renewal — hantar Renewal Form Online`,1:`MCM Renewal — umumkan dalam chapter meeting & terima bayaran`};
-    abanner=`<div style="padding:9px 12px;border-radius:var(--r-md);background:${bc};margin-bottom:10px;font-size:12px;color:${tc};border:1px solid ${bc}"><strong>Tindakan diperlukan:</strong> ${msgs[s.step]||''} untuk ${esc(m.name.split(' ')[0])}</div>`;
+    const msgs={5:'Growth Ambassador — hantar Happiness Feedback Form',4:'MCM Renewal — semak POR Report & buat participation review',3:'MCM Renewal — buat pengumuman renewal & daftarkan ke MA Renewal Training',2:'MCM Renewal — hantar Renewal Form Online',1:'MCM Renewal — umumkan dalam chapter meeting & terima bayaran'};
+    abanner=`<div style="padding:9px 12px;border-radius:var(--r-md);background:${bc};margin-bottom:10px;font-size:12px;color:${tc};border:1px solid ${bc}"><b>Tindakan diperlukan:</b> ${msgs[s.step]||''} untuk ${esc(m.name.split(' ')[0])}</div>`;
   }
 
   const hapH=h?`<div class="fc"><h3>💛 Happiness Feedback ${h._submitted?`<span style="font-size:9px;background:#EAF3DE;color:#3B6D11;padding:1px 6px;border-radius:20px;margin-left:4px;font-weight:700">Diisi ${h._date||''}</span>`:''}</h3>
@@ -564,51 +861,42 @@ function buildMemberDetail(m){
       <div class="hi"><div class="hl">Tenure (laporan sendiri)</div><div class="hv">${esc(h.tenure||'-')}</div></div>
     </div>
     ${h.comment&&h.comment!=='-'?`<div style="margin-top:8px;padding:8px 10px;background:var(--bg3);border-radius:var(--r-md);font-size:12px;font-style:italic;color:var(--text2);border-left:3px solid var(--amber)">"${esc(h.comment)}"</div>`:''}
-    ${h.bni&&h.bni!=='-'?`<div style="margin-top:8px"><div style="font-size:10px;color:var(--text3);margin-bottom:2px;font-weight:600">BNI boleh buat:</div><div style="font-size:12px;color:var(--text)">${esc(h.bni)}</div></div>`:''}
-    ${h.self&&h.self!=='-'?`<div style="margin-top:6px"><div style="font-size:10px;color:var(--text3);margin-bottom:2px;font-weight:600">Ahli boleh buat:</div><div style="font-size:12px;color:var(--text)">${esc(h.self)}</div></div>`:''}
+    ${h.bni&&h.bni!=='-'?`<div style="margin-top:8px"><div style="font-size:10px;color:var(--text3);margin-bottom:2px;font-weight:700">BNI boleh buat:</div><div style="font-size:12px">${esc(h.bni)}</div></div>`:''}
+    ${h.self&&h.self!=='-'?`<div style="margin-top:6px"><div style="font-size:10px;color:var(--text3);margin-bottom:2px;font-weight:700">Ahli boleh buat:</div><div style="font-size:12px">${esc(h.self)}</div></div>`:''}
     <button data-form="${m.no}" style="margin-top:10px;font-size:12px;padding:6px 14px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);color:var(--blue);cursor:pointer">🔄 Kemaskini jawapan</button>
   </div>`:
   `<div class="fc"><h3>💛 Happiness Feedback</h3>
-    <div style="font-size:13px;color:var(--text3);margin-bottom:10px">Belum mengisi borang.${curStep>=5?' <strong style="color:var(--blue)">GA perlu hantar form sekarang!</strong>':''}</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:10px">Belum mengisi borang.${curStep>=5?` <b style="color:var(--blue)">GA perlu hantar form sekarang!</b>`:''}</div>
     <button data-form="${m.no}" style="font-size:12px;padding:6px 14px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);color:var(--blue);cursor:pointer">🔗 Buka Borang Happiness</button>
   </div>`;
 
   const tlc=TLC[m.name]||[];
   const tlcH=tlc.map(n=>`<div class="tlce"><div class="tlcd">📅 ${esc(n.date)}</div>${esc(n.text)}</div>`).join('')||`<div style="font-size:12px;color:var(--text3);padding:4px 0">Belum ada catatan TLC.</div>`;
 
-  const aiSection=`<div class="fc"><h3>🤖 AI Insight</h3>
-    ${apiKey?`<button id="ai-member-btn" data-mno="${m.no}" style="padding:7px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);font-size:13px;color:var(--text2);cursor:pointer">✨ Jana analisis AI untuk ${esc(m.name.split(' ')[0])}</button>
-    <div id="ai-loading-m" class="ai-loading" style="margin-top:10px">⏳ AI sedang berfikir...</div>
-    <div id="ai-resp-m" class="ai-resp" style="margin-top:10px"></div>`
-    :`<div style="font-size:13px;color:var(--text3)">Masukkan API Key untuk aktifkan AI Insight. Klik ⚙ API Key di header.</div>`}
-  </div>`;
-
-  return `<button class="bk" id="back-btn">← Kembali</button>
+  return`<button class="bk" id="back-btn">← Kembali</button>
   <div class="mh">
     <div class="av">${initials}</div>
     <div style="flex:1">
-      <div style="font-size:17px;font-weight:700;color:var(--text);margin-bottom:6px">${esc(m.name)}</div>
+      <div style="font-size:17px;font-weight:700;margin-bottom:6px">${esc(m.name)}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        ${m.role?`<span style="font-size:12px;color:var(--text2);font-weight:600">${esc(m.role)}</span>`:''}
-        <span style="font-size:12px;color:var(--text2)">📅 ${m.tenure}</span>
+        ${m.role?`<span style="font-size:12px;color:var(--text2);font-weight:700">${esc(m.role)}</span>`:''}
+        <span style="font-size:12px;color:var(--text2)">📅 ${m.tenure||'-'}</span>
         <span style="font-size:12px">Due: ${dlbl}</span>
         ${cb(m.color)}<span class="sb ${s.cls}">${s.lbl}</span>
       </div>
     </div>
     <div style="text-align:right">
-      <div style="font-size:11px;color:var(--text2);margin-bottom:2px;font-weight:600">MTL</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:2px;font-weight:700">MTL</div>
       <div style="font-size:28px;font-weight:700;color:${mc(m.color)}">${m.mtl}</div>
     </div>
   </div>
-  <div class="fc"><h3>✅ 54321 Renewal Process — Status Semasa</h3>
-    ${abanner}<div class="rsteps">${stepsH}</div>
-  </div>
+  <div class="fc"><h3>✅ 54321 Renewal Process — Status Semasa</h3>${abanner}<div class="rsteps">${stepsH}</div></div>
   <div class="dgrid">
     <div class="dc"><h3>📊 Data MTL</h3>
-      <div class="dr"><span class="dk">121 Meetings</span><span class="dv">${m.r121}</span></div>
-      <div class="dr"><span class="dk">Referral Diberikan</span><span class="dv">${m.rg}</span></div>
-      <div class="dr"><span class="dk">Visitor Dibawa</span><span class="dv">${m.vis}</span></div>
-      <div class="dr"><span class="dk">TYFCB</span><span class="dv">RM ${m.ty.toLocaleString()}</span></div>
+      <div class="dr"><span class="dk">121 Meetings (Total)</span><span class="dv">${m.r121||'-'}</span></div>
+      <div class="dr"><span class="dk">Referral Diberikan</span><span class="dv">${m.rg||'-'}</span></div>
+      <div class="dr"><span class="dk">Visitor Dibawa</span><span class="dv">${m.vis||'-'}</span></div>
+      <div class="dr"><span class="dk">TYFCB</span><span class="dv">RM ${(m.ty||0).toLocaleString()}</span></div>
     </div>
     <div class="dc"><h3>🔄 Status Renewal</h3>
       <div class="dr"><span class="dk">Keputusan Renew</span><span class="dv" style="color:${renew==='Ya'?'var(--green)':renew==='Tidak'?'var(--danger)':'var(--text2)'}">${renew==='Ya'?'✓ Akan Renew':renew==='Tidak'?'✗ Tidak Renew':'— Belum pasti'}</span></div>
@@ -618,240 +906,228 @@ function buildMemberDetail(m){
   </div>
   ${hapH}
   <div class="tlcs">
-    <div style="font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px">💚 TLC Notes (Tender Love & Care)</div>
+    <div style="font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:8px">💚 TLC Notes</div>
     <div id="tlc-${m.no}">${tlcH}</div>
     <div class="tlcw">
       <textarea class="tlcta" id="tlci-${m.no}" placeholder="Tambah nota selepas perjumpaan TLC..."></textarea>
       <button class="tlcbtn" id="tlc-save-${m.no}" data-mno="${m.no}">💾 Simpan</button>
     </div>
   </div>
-  ${aiSection}`;
+  <div class="fc"><h3>🤖 AI Insight</h3>
+    ${apiKey?`<button id="ai-member-btn" data-mno="${m.no}" style="padding:7px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);font-size:13px;color:var(--text2);cursor:pointer">✨ Jana analisis AI untuk ${esc(m.name.split(' ')[0])}</button>
+    <div id="ai-loading-m" class="ai-loading" style="margin-top:10px">⏳ AI sedang berfikir...</div>
+    <div id="ai-resp-m" class="ai-resp" style="margin-top:10px"></div>`
+    :`<div style="font-size:13px;color:var(--text3)">Masukkan API Key untuk aktifkan AI Insight.</div>`}
+  </div>`;
 }
 
 function buildForm(){
   const m=MB.find(x=>x.no===formMemberId);
-  if(!m) return '<div style="padding:20px">Ahli tidak dijumpai.</div>';
+  if(!m) return'<div style="padding:20px">Ahli tidak dijumpai.</div>';
   const h=HP[m.name];
   if(h&&h._submitted){
-    return `<div style="padding:20px"><div class="hfsuccess">
+    return`<div style="padding:20px"><div class="hfsuccess">
       <h3>✅ Borang Sudah Diisi</h3>
-      <p>Terima kasih ${esc(m.name.split(' ')[0])}! Maklum balas anda telah berjaya direkodkan pada ${h._date||''}.</p>
+      <p>Terima kasih ${esc(m.name.split(' ')[0])}! Maklum balas anda telah direkodkan pada ${h._date||''}.</p>
       <button id="close-form-btn" style="margin-top:16px;padding:8px 20px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--bg);cursor:pointer;font-size:13px">Kembali ke CRM</button>
     </div></div>`;
   }
-  const NILAI_OPTS=['Saya bercakap dengan jelas dan yakin mengenai perniagaan saya','Saya lebih mengetahui tentang perniagaan lain','Saya rasa lebih berhubung dengan pemilik perniagaan setempat','Saya rasa lebih berpengaruh sekarang dengan ilmu tambahan','Saya boleh mendapat nasihat daripada ahli untuk perniagaan saya','Saya selesa berinteraksi di majlis networking','Saya rasa saya mempunyai pasukan yang membantu perniagaan saya','Saya mempunyai lebih banyak sumber untuk dikongsi dengan rakan-rakan','Saya mempunyai persahabatan yang kuat','Saya mempunyai kemahiran kepimpinan yang kuat','Saya mempunyai kemahiran persembahan yang baik','Saya menerima lebih banyak referral','Saya menerima referral yang lebih berkualiti','Saya mempunyai kadar penukaran referral yang lebih tinggi','Saya mempunyai pelanggan/klien yang lebih bernilai tinggi','Saya boleh meminta jenis kontak/klien baru dengan lebih spesifik','Saya seronok membantu orang lain berjaya dalam perniagaan','Pendapatan keseluruhan perniagaan saya lebih tinggi','Saya mempunyai kemahiran komunikasi yang lebih baik dengan pemilik perniagaan lain'];
-  const PERTAMA_OPTS=['Cara anda dihost','Mesyuarat dijalankan secara profesional','Tenaga dalam bilik mesyuarat','Potensi perniagaan','Referral dan perniagaan yang dilakukan oleh ahli','Persembahan daripada ahli','Saiz chapter'];
-  return `<div style="padding:16px"><div class="hform-wrap">
+  const NL=['Saya bercakap dengan jelas dan yakin mengenai perniagaan saya','Saya lebih mengetahui tentang perniagaan lain','Saya rasa lebih berhubung dengan pemilik perniagaan setempat','Saya rasa lebih berpengaruh sekarang dengan ilmu tambahan','Saya boleh mendapat nasihat daripada ahli untuk perniagaan saya','Saya selesa berinteraksi di majlis networking','Saya rasa saya mempunyai pasukan yang membantu perniagaan saya','Saya mempunyai lebih banyak sumber untuk dikongsi dengan rakan-rakan','Saya mempunyai persahabatan yang kuat','Saya mempunyai kemahiran kepimpinan yang kuat','Saya mempunyai kemahiran persembahan yang baik','Saya menerima lebih banyak referral','Saya menerima referral yang lebih berkualiti','Saya mempunyai kadar penukaran referral yang lebih tinggi','Saya mempunyai pelanggan/klien yang lebih bernilai tinggi','Saya boleh meminta jenis kontak/klien baru dengan lebih spesifik','Saya seronok membantu orang lain berjaya dalam perniagaan','Pendapatan keseluruhan perniagaan saya lebih tinggi','Saya mempunyai kemahiran komunikasi yang lebih baik dengan pemilik perniagaan lain'];
+  const PL=['Cara anda dihost','Mesyuarat dijalankan secara profesional','Tenaga dalam bilik mesyuarat','Potensi perniagaan','Referral dan perniagaan yang dilakukan oleh ahli','Persembahan daripada ahli','Saiz chapter'];
+  return`<div style="padding:16px"><div class="hform-wrap">
     <div class="hfcard">
       <h2>BNI Jutawan — Borang Happiness Feedback</h2>
-      <div class="hfsub">Borang untuk: <strong>${esc(m.name)}</strong> · Due: ${esc(m.due)}</div>
-
-      <div class="hfq"><label class="qlabel">1. Nama Penuh</label>
-        <input type="text" class="hftxt" style="height:38px;min-height:38px;resize:none" id="hf-nama" value="${esc(m.name)}" readonly></div>
-
+      <div class="hfsub">Borang untuk: <b>${esc(m.name)}</b> · Due: ${esc(m.due)}</div>
+      <div class="hfq"><label class="qlabel">1. Nama Penuh</label><input type="text" class="hftxt" style="height:38px;min-height:38px;resize:none" id="hf-nama" value="${esc(m.name)}" readonly></div>
       <div class="hfq"><label class="qlabel">2. Berapa lama anda menjadi ahli BNI?</label>
         <select class="hfsel" id="hf-tenure"><option value="">Pilih...</option><option>Kurang daripada 6 bulan</option><option>6 bulan hingga 12 bulan</option><option>13 bulan hingga 24 bulan</option><option>Lebih daripada 24 bulan</option></select></div>
-
       <div class="hfq"><label class="qlabel">3. Adakah anda pernah atau sedang berada dalam Leadership Team atau Support?</label>
         <label class="hfopt"><input type="radio" name="hf-lt" value="Ya"><span>Ya</span></label>
         <label class="hfopt"><input type="radio" name="hf-lt" value="Tidak"><span>Tidak</span></label></div>
-
       <div class="hfq"><label class="qlabel">4. Semasa anda pertama kali melawat chapter, perkara apa yang menarik perhatian anda?</label>
         <div class="hfhint">Pilih semua yang berkenaan</div>
-        ${PERTAMA_OPTS.map(o=>`<label class="hfopt"><input type="checkbox" name="hf-pertama" value="${esc(o)}"><span>${esc(o)}</span></label>`).join('')}</div>
-
+        ${PL.map(o=>`<label class="hfopt"><input type="checkbox" name="hf-pertama" value="${esc(o)}"><span>${esc(o)}</span></label>`).join('')}</div>
       <div class="hfq"><label class="qlabel">5. Sila nilaikan diri anda sekarang berbanding ketika mula-mula menyertai BNI</label>
         <div class="hfhint">Pilih semua peningkatan yang anda rasakan</div>
-        ${NILAI_OPTS.map(o=>`<label class="hfopt"><input type="checkbox" name="hf-nilai" value="${esc(o)}"><span>${esc(o)}</span></label>`).join('')}</div>
-
+        ${NL.map(o=>`<label class="hfopt"><input type="checkbox" name="hf-nilai" value="${esc(o)}"><span>${esc(o)}</span></label>`).join('')}</div>
       <div class="hfq"><label class="qlabel">6. Adakah anda berpuas hati dengan keahlian BNI anda?</label>
         <select class="hfsel" id="hf-sat"><option value="">Pilih...</option><option>Ya</option><option>Agak berpuas hati</option><option>Tidak</option></select></div>
-
       <div class="hfq"><label class="qlabel">7. Adakah anda akan memperkenalkan ahli baru kepada chapter anda?</label>
         <label class="hfopt"><input type="radio" name="hf-intro" value="Ya"><span>Ya</span></label>
         <label class="hfopt"><input type="radio" name="hf-intro" value="Tidak"><span>Tidak</span></label></div>
-
       <div class="hfq"><label class="qlabel">8. Jelaskan sebab anda memilih Ya atau Tidak (soalan 7)</label>
         <textarea class="hftxt" id="hf-intro-reason" placeholder="Jelaskan..."></textarea></div>
-
       <div class="hfq"><label class="qlabel">9. Jika keahlian anda tamat sekarang, adakah anda akan memperbaharui?</label>
         <label class="hfopt"><input type="radio" name="hf-renew" value="Ya"><span>Ya</span></label>
         <label class="hfopt"><input type="radio" name="hf-renew" value="Tidak"><span>Tidak</span></label>
         <label class="hfopt"><input type="radio" name="hf-renew" value="Tak Pasti"><span>Tak Pasti</span></label></div>
-
       <div class="hfq"><label class="qlabel">10. Jika TIDAK renew, jelaskan sebab. Jika YA, tulis N/A.</label>
         <textarea class="hftxt" id="hf-norenew" placeholder="Sebab tidak renew / N/A..."></textarea></div>
-
       <div class="hfq"><label class="qlabel">11. Apa lagi yang BNI boleh lakukan untuk anda?</label>
         <textarea class="hftxt" id="hf-bni" placeholder="Cadangan anda..."></textarea></div>
-
       <div class="hfq"><label class="qlabel">12. Apa lagi yang anda boleh lakukan untuk diri sendiri?</label>
         <textarea class="hftxt" id="hf-self" placeholder="Komitmen anda..."></textarea></div>
-
-      <div class="hfq"><label class="qlabel">13. Maklum balas lain / pesanan untuk pasukan kepimpinan BNI Jutawan?</label>
+      <div class="hfq"><label class="qlabel">13. Maklum balas lain / pesanan untuk pasukan kepimpinan?</label>
         <textarea class="hftxt" id="hf-extra" placeholder="Pesanan atau ucapan..."></textarea></div>
-
       <div class="hfq"><label class="qlabel">14. Bila kali terakhir anda menjawab tinjauan ini?</label>
         <select class="hfsel" id="hf-last"><option value="">Pilih...</option><option>Tidak pernah</option><option>Kurang daripada 6 bulan yang lalu</option><option>6 hingga 12 bulan yang lalu</option><option>Lebih daripada 12 bulan yang lalu</option></select></div>
-
-      <div class="hfq"><label class="hfopt"><input type="checkbox" id="hf-akui"><span style="font-size:13px;font-weight:600">Saya mengaku saya telah menjawab semua soalan dengan jujur & tiada paksaan.</span></label></div>
-
-      <div id="hf-err" style="color:var(--danger);font-size:13px;margin-bottom:10px;display:none;padding:8px 12px;background:#FCEBEB;border-radius:var(--r-md)">⚠ Sila lengkapkan semua soalan wajib dan tandakan akuan sebelum hantar.</div>
+      <div class="hfq"><label class="hfopt"><input type="checkbox" id="hf-akui"><span style="font-size:13px;font-weight:700">Saya mengaku saya telah menjawab semua soalan dengan jujur & tiada paksaan.</span></label></div>
+      <div id="hf-err" style="color:var(--danger);font-size:13px;margin-bottom:10px;display:none;padding:8px 12px;background:#FCEBEB;border-radius:var(--r-md)">⚠ Sila lengkapkan semua soalan wajib dan tandakan akuan.</div>
       <button class="hfsubmit" id="hf-submit-btn" data-mno="${m.no}">📨 Hantar Maklum Balas</button>
       <button id="close-form-btn" style="margin-top:8px;width:100%;padding:10px;border-radius:var(--r-md);border:1px solid var(--border);background:transparent;font-size:14px;color:var(--text2);cursor:pointer">Batal</button>
     </div>
   </div></div>`;
 }
 
-/* ── AI ── */
+// ── AI ──
 function buildCtx(){
-  return MB.map(m=>{const s=getStep(m.due),d=daysUntil(m.due),h=HP[m.name];return `${m.name}(MTL:${m.mtl},Warna:${m.color},Due:${m.due}/${d}hari,Langkah:${s.lbl},PIC:${s.pic==='ga'?'GA':'MCM'},Renew:${h?h.renew:m.renew},Happiness:${h?h.feel:'Belum isi'},TYFCB:RM${m.ty.toLocaleString()})`;}).join('\n');
+  return MB.map(m=>{const s=getStep(m.due),d=daysUntil(m.due),h=HP[m.name];return`${m.name}(MTL:${m.mtl},Warna:${m.color},Due:${m.due}/${d}hari,Langkah:${s.lbl},PIC:${s.pic==='ga'?'GA':'MCM'},Renew:${h?h.renew:m.renew},Happiness:${h?h.feel:'Belum isi'},TYFCB:RM${(m.ty||0).toLocaleString()})`;}).join('\n');
 }
 
-async function callAI(messages, loadingId, respId){
-  if(!apiKey){ alert('Sila masukkan API Key terlebih dahulu. Klik ⚙ API Key di header.'); return; }
-  const loading=document.getElementById(loadingId), resp=document.getElementById(respId);
-  if(loading) loading.style.display='flex';
-  if(resp){ resp.style.display='none'; resp.textContent=''; }
+async function callAI(messages,loadingId,respId){
+  if(!apiKey){alert('Sila masukkan API Key terlebih dahulu.');return;}
+  const loading=document.getElementById(loadingId),resp=document.getElementById(respId);
+  if(loading)loading.style.display='flex';
+  if(resp){resp.style.display='none';resp.textContent='';}
   try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
       body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,
-        system:`Kamu pembantu AI untuk Chapter BNI Jutawan Putrajaya. Tarikh hari ini: 25 Mei 2026. 54321 Renewal Process: Langkah 5(5 bulan sebelum due=GA hantar Happiness Form), 4(4 bulan=MCM POR Report), 3(3 bulan=MCM Pengumuman+MA Training), 2(2 bulan=MCM Renewal Form Online), 1(1 bulan=MCM Umumkan+Bayaran). Jawab dalam Bahasa Melayu dengan ringkas dan praktikal.`,
+        system:`Kamu pembantu AI untuk Chapter BNI Jutawan Putrajaya. Tarikh hari ini: 25 Mei 2026. Data MTL: ${mtlMonth} ${mtlYear}. 54321 Renewal: Langkah 5(5bln/GA Happiness Form), 4(4bln/MCM POR), 3(3bln/MCM Pengumuman+MA), 2(2bln/MCM Renewal Form), 1(1bln/MCM Bayaran). Jawab dalam Bahasa Melayu ringkas dan praktikal.`,
         messages})
     });
     const data=await res.json();
-    if(data.error){ throw new Error(data.error.message); }
+    if(data.error)throw new Error(data.error.message);
     const text=data.content?.map(c=>c.text||'').join('')||'Tidak dapat respons.';
-    if(loading) loading.style.display='none';
-    if(resp){ resp.style.display='block'; resp.textContent=text; }
+    if(loading)loading.style.display='none';
+    if(resp){resp.style.display='block';resp.textContent=text;}
   }catch(e){
-    if(loading) loading.style.display='none';
-    if(resp){ resp.style.display='block'; resp.textContent=`Ralat: ${e.message}. Sila semak API Key anda.`; }
+    if(loading)loading.style.display='none';
+    if(resp){resp.style.display='block';resp.textContent=`Ralat: ${e.message}`;}
   }
 }
 
-async function sendOverviewAI(){
-  const q=document.getElementById('ai-q')?.value.trim(); if(!q) return;
-  const msgs=[{role:'user',content:`${q}\n\nData ahli:\n${buildCtx()}`}];
-  await callAI(msgs,'ai-loading','ai-resp');
-}
-
-async function sendMemberAI(no){
-  const m=MB.find(x=>x.no==no); if(!m) return;
-  const h=HP[m.name],s=getStep(m.due),d=daysUntil(m.due),tlc=TLC[m.name]||[];
-  const ctx=`Ahli: ${m.name}, MTL:${m.mtl}, Warna:${m.color}, Due:${m.due}(${d} hari), Langkah:${s.lbl}, PIC:${s.pic==='ga'?'Growth Ambassador':'MCM Renewal'}, Tenure:${m.tenure}, 121:${m.r121}, Referral:${m.rg}, Visitor:${m.vis}, TYFCB:RM${m.ty.toLocaleString()}, Happiness:${h?`feeling=${h.feel},sat=${h.sat},renew=${h.renew},komen="${h.comment}"`:'Belum isi'}, Renew:${h?h.renew:m.renew}, TLC:${tlc.length?tlc.map(n=>n.text).join('; '):'Tiada'}`;
-  const msgs=[{role:'user',content:`Berikan analisis ringkas dalam Bahasa Melayu untuk ahli ini. Sertakan: 1) Status prestasi MTL, 2) Status renewal & langkah 54321 semasa, 3) Risiko tidak renew, 4) Arahan spesifik untuk PIC (${s.pic==='ga'?'Growth Ambassador':'MCM Renewal'}), 5) Cadangan TLC.\n\n${ctx}`}];
-  await callAI(msgs,'ai-loading-m','ai-resp-m');
-}
-
-/* ── EVENTS ── */
+// ── EVENTS ──
 function bindEvents(){
-  /* Login */
+  // Login
   const lb=document.getElementById('login-btn');
-  if(lb) lb.onclick=doLogin;
+  if(lb)lb.onclick=doLogin;
   const lp=document.getElementById('l-pass');
-  if(lp) lp.onkeydown=e=>{ if(e.key==='Enter') doLogin(); };
+  if(lp)lp.onkeydown=e=>{if(e.key==='Enter')doLogin();};
 
-  /* Nav tabs */
-  document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{ currentView=b.dataset.view; currentMember=null; render(); });
+  // Nav
+  document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{currentView=b.dataset.view;currentMember=null;render();});
 
-  /* Logout */
+  // Logout
   const lo=document.getElementById('logout-btn');
-  if(lo) lo.onclick=()=>{ currentUser=null; showWelcome=false; currentView='overview'; currentMember=null; formMemberId=null; render(); };
+  if(lo)lo.onclick=()=>{currentUser=null;showWelcome=false;currentView='overview';currentMember=null;formMemberId=null;render();};
 
-  /* API Key modal */
+  // API Key modal
   const akb=document.getElementById('api-key-btn');
-  if(akb) akb.onclick=()=>{ showApiModal=true; render(); };
+  if(akb)akb.onclick=()=>{showApiModal=true;render();};
   const asb=document.getElementById('api-save-btn');
-  if(asb) asb.onclick=()=>{ const v=document.getElementById('api-key-input')?.value.trim(); if(v){ apiKey=v; localStorage.setItem('bni_apikey',v); } showApiModal=false; render(); };
+  if(asb)asb.onclick=()=>{const v=document.getElementById('api-key-input')?.value.trim();if(v){apiKey=v;localStorage.setItem('bni_apikey',v);}showApiModal=false;render();};
   const askp=document.getElementById('api-skip-btn');
-  if(askp) askp.onclick=()=>{ showApiModal=false; render(); };
+  if(askp)askp.onclick=()=>{showApiModal=false;render();};
 
-  /* Table rows */
+  // PDF Upload — main empty state
+  const pm=document.getElementById('pdf-main');
+  if(pm)pm.onchange=e=>{const f=e.target.files[0];if(f)parseMTLPDF(f);};
+
+  // PDF Upload — ubar
+  const pu=document.getElementById('pdf-up');
+  if(pu)pu.onchange=e=>{const f=e.target.files[0];if(f)parseMTLPDF(f);};
+
+  // Table rows
   document.querySelectorAll('[data-mno]').forEach(r=>{
-    if(!r.dataset.done&&!r.dataset.copy&&!r.dataset.form&&!r.dataset.rf) r.onclick=()=>{ currentMember=MB.find(x=>x.no==r.dataset.mno); render(); };
+    if(!r.dataset.done&&!r.dataset.copy&&!r.dataset.form&&!r.dataset.rf)
+      r.onclick=()=>{currentMember=MB.find(x=>x.no==r.dataset.mno);render();};
   });
 
-  /* Renewal filter */
-  document.querySelectorAll('[data-rf]').forEach(b=>b.onclick=()=>{ rfFilter=b.dataset.rf; render(); });
+  // RT rows
+  document.querySelectorAll('.rti[data-mno]').forEach(r=>{
+    r.onclick=()=>{currentMember=MB.find(x=>x.no==r.dataset.mno);render();};
+  });
 
-  /* Mark done */
-  document.querySelectorAll('[data-done]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); const no=parseInt(b.dataset.done),st=b.dataset.step; if(!DONE[no])DONE[no]={}; DONE[no][st]=true; saveDONE(); render(); });
+  // Renewal filter
+  document.querySelectorAll('[data-rf]').forEach(b=>b.onclick=()=>{rfFilter=b.dataset.rf;render();});
 
-  /* Back btn */
+  // Mark done
+  document.querySelectorAll('[data-done]').forEach(b=>b.onclick=e=>{
+    e.stopPropagation();const no=parseInt(b.dataset.done),st=b.dataset.step;
+    if(!DONE[no])DONE[no]={};DONE[no][st]=true;saveDONE();render();
+  });
+
+  // Back
   const bk=document.getElementById('back-btn');
-  if(bk) bk.onclick=()=>{ currentMember=null; render(); };
+  if(bk)bk.onclick=()=>{currentMember=null;render();};
 
-  /* Form open/close */
-  document.querySelectorAll('[data-form]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); formMemberId=parseInt(b.dataset.form); render(); });
+  // Form
+  document.querySelectorAll('[data-form]').forEach(b=>b.onclick=e=>{e.stopPropagation();formMemberId=parseInt(b.dataset.form);render();});
   const cfb=document.getElementById('close-form-btn');
-  if(cfb) cfb.onclick=()=>{ formMemberId=null; render(); };
+  if(cfb)cfb.onclick=()=>{formMemberId=null;render();};
 
-  /* Copy link */
-  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); const m=MB.find(x=>x.no==b.dataset.copy); navigator.clipboard?.writeText(`Salam ${m.name.split(' ')[0]}, sila isi Borang Happiness Feedback BNI Jutawan anda. Terima kasih! Due renewal: ${m.due}`); b.textContent='✓ Disalin!'; setTimeout(()=>b.textContent='📋 Salin',2000); });
+  // Copy
+  document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=e=>{
+    e.stopPropagation();const m=MB.find(x=>x.no==b.dataset.copy);
+    navigator.clipboard?.writeText(`Salam ${m.name.split(' ')[0]}, sila isi Borang Happiness Feedback BNI Jutawan anda. Due renewal: ${m.due}`);
+    b.textContent='✓ Disalin!';setTimeout(()=>b.textContent='📋 Salin',2000);
+  });
 
-  /* Search & filter */
-  const si=document.getElementById('s-inp'), cf=document.getElementById('c-fil');
-  function applyFilter(){ const q=si?.value.toLowerCase()||'',c=cf?.value||''; document.getElementById('tbl2').innerHTML=buildRows(MB.filter(m=>m.name.toLowerCase().includes(q)&&(!c||m.color===c))); }
-  if(si) si.oninput=applyFilter;
-  if(cf) cf.onchange=applyFilter;
+  // Search
+  const si=document.getElementById('s-inp'),cf=document.getElementById('c-fil');
+  if(si)si.oninput=()=>{const q=si.value.toLowerCase(),c=cf?.value||'';document.getElementById('tbl2').innerHTML=buildRows(MB.filter(m=>m.name.toLowerCase().includes(q)&&(!c||m.color===c)));};
+  if(cf)cf.onchange=()=>{const q=si?.value.toLowerCase()||'',c=cf.value;document.getElementById('tbl2').innerHTML=buildRows(MB.filter(m=>m.name.toLowerCase().includes(q)&&(!c||m.color===c)));};
 
-  /* AI Overview */
+  // AI Overview
   const aiq=document.getElementById('ai-q');
-  if(aiq) aiq.onkeydown=e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); sendOverviewAI(); } };
+  if(aiq)aiq.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendOverviewAI();}};
   const aisb=document.getElementById('ai-send-btn');
-  if(aisb) aisb.onclick=sendOverviewAI;
+  if(aisb)aisb.onclick=sendOverviewAI;
 
-  /* AI Member */
+  // AI Member
   const aimb=document.getElementById('ai-member-btn');
-  if(aimb) aimb.onclick=()=>sendMemberAI(aimb.dataset.mno);
+  if(aimb)aimb.onclick=()=>sendMemberAI(aimb.dataset.mno);
 
-  /* TLC Save */
+  // TLC Save
   document.querySelectorAll('[id^="tlc-save-"]').forEach(b=>b.onclick=()=>saveTLCEntry(parseInt(b.dataset.mno)));
 
-  /* Form submit */
+  // Form submit
   const hfs=document.getElementById('hf-submit-btn');
-  if(hfs) hfs.onclick=()=>submitForm(parseInt(hfs.dataset.mno));
-
-  /* Upload */
-  const pu=document.getElementById('pdf-up');
-  if(pu) pu.onchange=e=>{ const f=e.target.files[0]; if(f){ const l=document.getElementById('ul-lbl'); if(l){l.textContent=`✓ ${f.name} — diterima`; l.style.color='var(--green)'; setTimeout(()=>{l.textContent='Upload MTL PDF Baru';l.style.color='';},3000);} } };
+  if(hfs)hfs.onclick=()=>submitForm(parseInt(hfs.dataset.mno));
 }
 
 function doLogin(){
   const u=document.getElementById('l-user')?.value.trim().toLowerCase();
   const p=document.getElementById('l-pass')?.value;
   if(USERS[u]&&USERS[u].pass===p){
-    currentUser=USERS[u]; showWelcome=true; render();
-    setTimeout(()=>{ showWelcome=false; render(); },2200);
-  } else {
-    const err=document.getElementById('l-err'); if(err) err.style.display='block';
+    currentUser=USERS[u];showWelcome=true;render();
+    setTimeout(()=>{showWelcome=false;render();},2200);
+  }else{
+    const err=document.getElementById('l-err');if(err)err.style.display='block';
   }
 }
 
 function saveTLCEntry(no){
-  const m=MB.find(x=>x.no===no); if(!m) return;
-  const inp=document.getElementById(`tlci-${no}`),text=inp?.value.trim(); if(!text) return;
-  if(!TLC[m.name]) TLC[m.name]=[];
-  const dt=TODAY.toLocaleDateString('ms-MY',{day:'2-digit',month:'short',year:'numeric'});
-  TLC[m.name].push({date:dt,text});
-  saveTLCS(); render();
+  const m=MB.find(x=>x.no===no);if(!m)return;
+  const inp=document.getElementById(`tlci-${no}`),text=inp?.value.trim();if(!text)return;
+  if(!TLC[m.name])TLC[m.name]=[];
+  const dt=new Date(2026,4,25).toLocaleDateString('ms-MY',{day:'2-digit',month:'short',year:'numeric'});
+  TLC[m.name].push({date:dt,text});saveTLCS();render();
 }
 
 function submitForm(no){
-  const m=MB.find(x=>x.no===no); if(!m) return;
+  const m=MB.find(x=>x.no===no);if(!m)return;
   const sat=document.getElementById('hf-sat')?.value;
   const renew=document.querySelector('input[name="hf-renew"]:checked');
   const intro=document.querySelector('input[name="hf-intro"]:checked');
   const lt=document.querySelector('input[name="hf-lt"]:checked');
   const akui=document.getElementById('hf-akui')?.checked;
   const err=document.getElementById('hf-err');
-  if(!sat||!renew||!intro||!lt||!akui){ if(err) err.style.display='block'; return; }
-  if(err) err.style.display='none';
+  if(!sat||!renew||!intro||!lt||!akui){if(err)err.style.display='block';return;}
+  if(err)err.style.display='none';
   const nilai=[...document.querySelectorAll('input[name="hf-nilai"]:checked')].map(x=>x.value);
-  const pertama=[...document.querySelectorAll('input[name="hf-pertama"]:checked')].map(x=>x.value);
   const feel=nilai.length>=12?'Sangat baik':nilai.length>=6?'Ada peningkatan':'Tiada perubahan';
   HP[m.name]={
     sat,renew:renew.value,intro:intro.value,feel,
@@ -860,15 +1136,27 @@ function submitForm(no){
     bni:document.getElementById('hf-bni')?.value||'-',
     self:document.getElementById('hf-self')?.value||'-',
     tenure:document.getElementById('hf-tenure')?.value||'-',
-    lt:lt.value,pertama:pertama.join(', ')||'-',
+    lt:lt.value,
     introReason:document.getElementById('hf-intro-reason')?.value||'-',
     noRenewReason:document.getElementById('hf-norenew')?.value||'N/A',
-    _submitted:true,_date:TODAY.toLocaleDateString('ms-MY')
+    _submitted:true,_date:new Date(2026,4,25).toLocaleDateString('ms-MY')
   };
-  saveHP(); formMemberId=null; render();
+  saveHP();formMemberId=null;render();
 }
 
-/* ── INIT ── */
+async function sendOverviewAI(){
+  const q=document.getElementById('ai-q')?.value.trim();if(!q)return;
+  await callAI([{role:'user',content:`${q}\n\nData ahli:\n${buildCtx()}`}],'ai-loading','ai-resp');
+}
+
+async function sendMemberAI(no){
+  const m=MB.find(x=>x.no==no);if(!m)return;
+  const h=HP[m.name],s=getStep(m.due),d=daysUntil(m.due),tlc=TLC[m.name]||[];
+  const ctx=`Ahli: ${m.name}, MTL:${m.mtl}, Warna:${m.color}, Due:${m.due}(${d} hari), Langkah:${s.lbl}, PIC:${s.pic==='ga'?'Growth Ambassador':'MCM Renewal'}, Tenure:${m.tenure||'-'}, 121:${m.r121||0}, Referral:${m.rg||0}, Visitor:${m.vis||0}, TYFCB:RM${(m.ty||0).toLocaleString()}, Happiness:${h?`feeling=${h.feel},sat=${h.sat},renew=${h.renew},komen="${h.comment}"`:'Belum isi'}, Renew:${h?h.renew:m.renew}, TLC:${tlc.length?tlc.map(n=>n.text).join('; '):'Tiada'}`;
+  await callAI([{role:'user',content:`Berikan analisis ringkas dalam Bahasa Melayu untuk ahli ini. Sertakan: 1) Status prestasi MTL, 2) Status renewal & langkah 54321 semasa, 3) Risiko tidak renew, 4) Arahan spesifik untuk PIC (${s.pic==='ga'?'Growth Ambassador':'MCM Renewal'}), 5) Cadangan TLC.\n\n${ctx}`}],'ai-loading-m','ai-resp-m');
+}
+
+// ── INIT ──
 loadLocal();
 render();
 </script>
