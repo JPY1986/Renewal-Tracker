@@ -717,7 +717,7 @@ async function callAI(messages, loadingId, respId){
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,
         system:`Kamu pembantu AI untuk Chapter BNI Jutawan Putrajaya. Tarikh hari ini: 25 Mei 2026. 54321 Renewal Process: Langkah 5(5 bulan sebelum due=GA hantar Happiness Form), 4(4 bulan=MCM POR Report), 3(3 bulan=MCM Pengumuman+MA Training), 2(2 bulan=MCM Renewal Form Online), 1(1 bulan=MCM Umumkan+Bayaran). Jawab dalam Bahasa Melayu dengan ringkas dan praktikal.`,
         messages})
     });
