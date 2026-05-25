@@ -207,6 +207,10 @@ input,textarea,select{font-family:inherit}
 </style>
 </head>
 <body>
+
+  <button onclick="testSave()">
+TEST SAVE FIREBASE
+</button>
 <div id="root"></div>
 <script>
 // ── PDF.js setup ──
@@ -1183,5 +1187,59 @@ render();
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 </script>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import { 
+  getDatabase,
+  ref,
+  push,
+  set
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+// Firebase Config
+const firebaseConfig = {
+  apiKey: "AIzaSyBXku1AJJcl8M6bpO1yK9y8k5Q9YY2-iMI",
+  authDomain: "mcm-renwal-tracker.firebaseapp.com",
+  databaseURL: "https://mcm-renwal-tracker-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "mcm-renwal-tracker",
+  storageBucket: "mcm-renwal-tracker.firebasestorage.app",
+  messagingSenderId: "443045550847",
+  appId: "1:443045550847:web:304d52d1f604bad15a0aca",
+  measurementId: "G-J6TWX2CEL9"
+};
+
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+
+// Function Save Data
+window.testSave = function () {
+
+  const renewalRef = ref(db, "renewals");
+
+  const newData = push(renewalRef);
+
+  set(newData, {
+    customer: "Razali MYWAU",
+    roadtax_expiry: "2026-05-25",
+    insurance_expiry: "2026-06-01",
+    status: "ACTIVE",
+    created_at: new Date().toISOString()
+  });
+
+  alert("Data Saved To Firebase!");
+
+};
+
+</script>
+
+
+  
 </body>
 </html>
